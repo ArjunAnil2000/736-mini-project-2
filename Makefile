@@ -13,13 +13,10 @@ out/common.o: src/common.c src/common.h | out
 out/%: src/%.c out/common.o src/common.h | out
 	$(CC) $(CFLAGS) -o $@ $< out/common.o
 
-clockres.run: out/clockres
-	./scripts/clockres-runner.sh
-
-round-trip-pipes.run: out/round-trip-pipes
-	./scripts/round-trip-pipes-runner.sh
+%.run: out/%
+	./scripts/$*-runner.sh
 
 clean:
 	rm -rf out
 
-.PHONY: all clean clockres.run round-trip-pipes.run
+.PHONY: all clean
