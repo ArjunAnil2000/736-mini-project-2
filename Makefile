@@ -13,7 +13,10 @@ out/%: src/%.c | out
 clockres.run: out/clockres
 	./scripts/clockres-runner.sh
 
+round-trip-pipes.run: out/round-trip-pipes
+	./scripts/round-trip-pipes-runner.sh
+
 clean:
 	rm -rf out
 
-.PHONY: all clean clockres.run
+.PHONY: all clean clockres.run round-trip-pipes.run
