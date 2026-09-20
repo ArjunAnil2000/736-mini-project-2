@@ -21,11 +21,13 @@
 #define CPU 0
 #define TRIALS 2000
 
-static uint64_t timeval_to_ns(struct timeval *tv) {
+static uint64_t timeval_to_ns(struct timeval *tv)
+{
     return (uint64_t)tv->tv_sec * 1000000000ULL + (uint64_t)tv->tv_usec * 1000ULL;
 }
 
-static double clock_gettime_resolution_ns(clockid_t clk) {
+static double clock_gettime_resolution_ns(clockid_t clk)
+{
     uint64_t min_diff = UINT64_MAX;
     for (int i = 0; i < TRIALS; i++) {
         struct timespec a, b;
@@ -39,7 +41,8 @@ static double clock_gettime_resolution_ns(clockid_t clk) {
     return (double)min_diff;
 }
 
-static double gettimeofday_resolution_ns(void) {
+static double gettimeofday_resolution_ns(void)
+{
     uint64_t min_diff = UINT64_MAX;
     for (int i = 0; i < TRIALS; i++) {
         struct timeval a, b;
@@ -53,7 +56,8 @@ static double gettimeofday_resolution_ns(void) {
     return (double)min_diff;
 }
 
-static unsigned long long rdtsc_resolution_cycles(void) {
+static unsigned long long rdtsc_resolution_cycles(void)
+{
     unsigned long long min_diff = UINT64_MAX;
     for (int i = 0; i < TRIALS; i++) {
         unsigned long long a, b;
@@ -67,7 +71,8 @@ static unsigned long long rdtsc_resolution_cycles(void) {
     return min_diff;
 }
 
-int main(void) {
+int main(void)
+{
     pin_to_cpu(CPU);
 
     printf("\n=== Timer resolution (smallest observed non-zero delta, %d trials) ===\n", TRIALS);

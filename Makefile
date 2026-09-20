@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -O2 -Wall -Wextra -std=gnu11
-BIN = clockres round-trip-pipes
+BIN = clockres round-trip-pipes latency throughput
 
 all: $(addprefix out/,$(BIN))
 

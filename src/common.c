@@ -11,7 +11,9 @@
 
 const size_t SIZES[NUM_SIZES] = {4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 524288};
 
-void pin_to_cpu(int cpu) {
+void
+pin_to_cpu(int cpu)
+{
     cpu_set_t set;
     CPU_ZERO(&set);
     CPU_SET(cpu, &set);
@@ -21,12 +23,16 @@ void pin_to_cpu(int cpu) {
     }
 }
 
-uint64_t timespec_to_ns(struct timespec *ts) {
+uint64_t
+timespec_to_ns(struct timespec *ts)
+{
     return (uint64_t)ts->tv_sec * 1000000000ULL + (uint64_t)ts->tv_nsec;
 }
 
 /* Calibrates TSC Hz via CLOCK_MONOTONIC; min of CALIBRATION_TRIALS bracketed samples. */
-double calibrate_tsc_hz(void) {
+double
+calibrate_tsc_hz(void)
+{
     double min_hz = __DBL_MAX__;
     for (int trial = 0; trial < CALIBRATION_TRIALS; trial++) {
         struct timespec ts0a, ts0b, ts1a, ts1b;
@@ -52,7 +58,9 @@ double calibrate_tsc_hz(void) {
     return min_hz;
 }
 
-void full_write(int fd, const char *buf, size_t n) {
+void
+full_write(int fd, const char *buf, size_t n)
+{
     size_t written = 0;
     while (written < n) {
         ssize_t w = write(fd, buf + written, n - written);
@@ -64,7 +72,9 @@ void full_write(int fd, const char *buf, size_t n) {
     }
 }
 
-void full_read(int fd, char *buf, size_t n) {
+void
+full_read(int fd, char *buf, size_t n)
+{
     size_t got = 0;
     while (got < n) {
         ssize_t r = read(fd, buf + got, n - got);

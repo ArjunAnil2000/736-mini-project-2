@@ -25,7 +25,8 @@
 #define PARENT_CPU 0
 #define CHILD_CPU 1
 
-static void child_main(int a2b_read, int b2a_write, size_t max_size) {
+static void child_main(int a2b_read, int b2a_write, size_t max_size)
+{
     pin_to_cpu(CHILD_CPU);
 
     char *buf = malloc(max_size);
@@ -46,7 +47,8 @@ static void child_main(int a2b_read, int b2a_write, size_t max_size) {
     exit(0);
 }
 
-static void parent_main(int a2b_write, int b2a_read, size_t max_size, pid_t child_pid) {
+static void parent_main(int a2b_write, int b2a_read, size_t max_size, pid_t child_pid)
+{
     char *send_buf = malloc(max_size);
     char *recv_buf = malloc(max_size);
     if (!send_buf || !recv_buf) {
@@ -81,7 +83,8 @@ static void parent_main(int a2b_write, int b2a_read, size_t max_size, pid_t chil
     }
 }
 
-int main(void) {
+int main(void)
+{
     pin_to_cpu(PARENT_CPU);
 
     size_t max_size = SIZES[NUM_SIZES - 1];
