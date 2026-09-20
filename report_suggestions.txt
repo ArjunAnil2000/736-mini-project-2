@@ -1,0 +1,7 @@
+posix_memalign to remove CPU bottlenecks from cache invalidation
+recompiling to change PIPE_BUF
+one-shot versus bursts versus continuous stream
+pin specific event captures to specific PMUs/PMCs
+move to the perf_event API for finer grained performance capture
+consider better capture via signalling SIGUSR2 around relevant parts of the code, which requires perf record to have --snapshot, and a specific way to end the capture
+pull additional PMU/PMC recordings only appear on real hardware
