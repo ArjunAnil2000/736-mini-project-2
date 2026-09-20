@@ -2,14 +2,13 @@
 # Runs clockres one time.
 # 1. checks the clockres binary exists
 # 2. pins the target CPU's frequency (scripts/pin_freq.sh)
-# 3. runs clockres pinned to that CPU via taskset
+# 3. runs clockres (it pins its own CPU affinity internally - see CPU in src/clockres.c)
 # 4. unpins the CPU's frequency again (scripts/unpin_freq.sh), even if the run fails
 #
 # Must be run with sudo (steps 2 and 4 need root). The actual benchmark in step 3 is dropped back to
 # the invoking user via sudo -u, so clockres itself never runs as root.
 #
-# CPU 0 is a P-core, pinned to a constant 4000 MHz.
-# Thinking of doing for multiple frequencies for the actual measurement for pipe, but that's later.
+# CPU here must match #define CPU in src/clockres.c. CPU 0 is a P-core, pinned to 4000 MHz.
 #
 # Usage: sudo ./scripts/clockres-runner.sh
 
@@ -42,9 +41,8 @@ echo "== pinning CPU $CPU =="
 "$SCRIPT_DIR/pin_freq.sh" "$CPU" "$FREQ"
 
 echo "== running clockres on CPU $CPU =="
-# drop down to normal user before running clockres
 if [ -n "${SUDO_USER:-}" ]; then
-    sudo -u "$SUDO_USER" taskset -c "$CPU" "$BIN"
+    sudo -u "$SUDO_USER" "$BIN"
 else
-    taskset -c "$CPU" "$BIN"
+    "$BIN"
 fi

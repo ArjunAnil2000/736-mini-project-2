@@ -12,35 +12,22 @@
  * full_write(), full_read().
  * Also remember that the pipe kernel buffer size is 65536 bytes in this lap (see lap-specs.md).
  *
- * The parent and the child processes are pinned to different CPUs using pin_to_cpu(). It's called
- * from inside this program rather than using taskset since the child is spawned only here.
- * Additionally, the child will copy the parent's affinity, so there is no other choice but to set
- * it from inside this program itself. The parent pins itself immediately after starting while the
- * child pins itself immediately after a successful fork.
+ * Parent and child are pinned to different CPUs via pin_to_cpu() (common.h), called from inside
+ * this program since fork() copies affinity - taskset alone can't give them different cores.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sched.h>
 #include <sys/wait.h>
+#include "common.h"
 
 static const size_t SIZES[] = {4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 524288};
 #define NUM_SIZES (sizeof(SIZES) / sizeof(SIZES[0]))
 
 #define PARENT_CPU 0
 #define CHILD_CPU 1
-
-static void pin_to_cpu(int cpu) {
-    cpu_set_t set;
-    CPU_ZERO(&set);
-    CPU_SET(cpu, &set);
-    if (sched_setaffinity(0, sizeof(set), &set) != 0) {
-        perror("sched_setaffinity");
-        exit(1);
-    }
-}
 
 static void full_write(int fd, const char *buf, size_t n) {
     size_t written = 0;

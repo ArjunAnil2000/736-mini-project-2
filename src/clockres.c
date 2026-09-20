@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 /**
  * clockres: measure the resolution of gettimeofday and several clock_gettime() clocks.
  *
@@ -7,24 +8,18 @@
  *   perspective) between them, so we keep reading until it changes.
  * - sleep() for 2s and wrap the various timers around it.
  *
- * This process should be pinned to a single CPU core externally, e.g.:
- *   taskset -c 0 ./out/clockres
- * ...so that the scheduler does not migrate this to a different CPU while running. See the pin_freq
- * and the unpin_freq scripts for how the frequency of the CPU is pinned (this is required as modern
- * CPU frequencies can also vary).
+ * Pinned to CPU via pin_to_cpu() (common.h). See pin_freq/unpin_freq scripts for pinning the
+ * CPU's frequency too (required since DVFS can vary it).
  */
 #include <stdio.h>
 #include <stdint.h>
 #include <time.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include <x86intrin.h>
+#include "common.h"
 
+#define CPU 0
 #define TRIALS 2000
-
-static uint64_t timespec_to_ns(struct timespec *ts) {
-    return (uint64_t)ts->tv_sec * 1000000000ULL + (uint64_t)ts->tv_nsec;
-}
 
 static uint64_t timeval_to_ns(struct timeval *tv) {
     return (uint64_t)tv->tv_sec * 1000000000ULL + (uint64_t)tv->tv_usec * 1000ULL;
@@ -72,47 +67,9 @@ static unsigned long long rdtsc_resolution_cycles(void) {
     return min_diff;
 }
 
-#define CALIBRATION_TRIALS 10
-
-/**
- * rdtsc's tsc tick rate needs to be "calibrated". Do this by running it against a sleep
- * instruction.
- *
- * Each rdtsc read is bracketed by two clock_gettime reads and the midpoint of the pair is *assumed*
- * to be the rdtsc's read effective timestamp. Without this, the rdtsc read timestamp would be
- * strictly greater than the out bracket and strictly less than the inner bracket.
- * Granted, the rdtsc read timestamp is not guaranteed to be on the mid timestamp -- it's probably a
- * little greater/lesser, but that margin of error will be extremely low.
- *
- * We take the minimum across CALIBRATION_TRIALS to be meaningful, for the same reason.
- */
-static double calibrate_tsc_hz(void) {
-    double min_hz = __DBL_MAX__;
-    for (int trial = 0; trial < CALIBRATION_TRIALS; trial++) {
-        struct timespec ts0a, ts0b, ts1a, ts1b;
-
-        clock_gettime(CLOCK_MONOTONIC, &ts0a);
-        unsigned long long c0 = __rdtsc();
-        clock_gettime(CLOCK_MONOTONIC, &ts0b);
-
-        struct timespec req = {0, 100 * 1000 * 1000}; /* 100 ms */
-        nanosleep(&req, NULL);
-
-        clock_gettime(CLOCK_MONOTONIC, &ts1a);
-        unsigned long long c1 = __rdtsc();
-        clock_gettime(CLOCK_MONOTONIC, &ts1b);
-
-        double ts0_mid_ns = (double)(timespec_to_ns(&ts0a) + timespec_to_ns(&ts0b)) / 2.0;
-        double ts1_mid_ns = (double)(timespec_to_ns(&ts1a) + timespec_to_ns(&ts1b)) / 2.0;
-
-        double secs = (ts1_mid_ns - ts0_mid_ns) / 1e9;
-        double hz = (double)(c1 - c0) / secs;
-        if (hz < min_hz) min_hz = hz;
-    }
-    return min_hz;
-}
-
 int main(void) {
+    pin_to_cpu(CPU);
+
     printf("\n=== Timer resolution (smallest observed non-zero delta, %d trials) ===\n", TRIALS);
 
     double cg_ns = clock_gettime_resolution_ns(CLOCK_MONOTONIC);

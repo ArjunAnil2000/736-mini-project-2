@@ -7,7 +7,7 @@ all: $(addprefix out/,$(BIN))
 out:
 	mkdir -p out
 
-out/%: src/%.c | out
+out/%: src/%.c src/common.h | out
 	$(CC) $(CFLAGS) -o $@ $<
 
 clockres.run: out/clockres
