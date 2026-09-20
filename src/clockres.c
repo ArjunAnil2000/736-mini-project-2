@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 /**
  * clockres: measure the resolution of gettimeofday and several clock_gettime() clocks.
  *
@@ -16,6 +15,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <x86intrin.h>
 #include "common.h"
 
 #define CPU 0

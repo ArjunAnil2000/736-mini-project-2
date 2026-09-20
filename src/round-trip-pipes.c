@@ -15,7 +15,6 @@
  * Parent and child are pinned to different CPUs via pin_to_cpu() (common.h), called from inside
  * this program since fork() copies affinity - taskset alone can't give them different cores.
  */
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,35 +22,8 @@
 #include <sys/wait.h>
 #include "common.h"
 
-static const size_t SIZES[] = {4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 524288};
-#define NUM_SIZES (sizeof(SIZES) / sizeof(SIZES[0]))
-
 #define PARENT_CPU 0
 #define CHILD_CPU 1
-
-static void full_write(int fd, const char *buf, size_t n) {
-    size_t written = 0;
-    while (written < n) {
-        ssize_t w = write(fd, buf + written, n - written);
-        if (w < 0) {
-            perror("write");
-            exit(1);
-        }
-        written += (size_t)w;
-    }
-}
-
-static void full_read(int fd, char *buf, size_t n) {
-    size_t got = 0;
-    while (got < n) {
-        ssize_t r = read(fd, buf + got, n - got);
-        if (r <= 0) {
-            perror("read");
-            exit(1);
-        }
-        got += (size_t)r;
-    }
-}
 
 static void child_main(int a2b_read, int b2a_write, size_t max_size) {
     pin_to_cpu(CHILD_CPU);
@@ -101,7 +73,12 @@ static void parent_main(int a2b_write, int b2a_read, size_t max_size, pid_t chil
     free(send_buf);
     free(recv_buf);
 
-    waitpid(child_pid, NULL, 0);
+    int status;
+    waitpid(child_pid, &status, 0);
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        fprintf(stderr, "child exited abnormally (status=%d)\n", status);
+        exit(1);
+    }
 }
 
 int main(void) {
