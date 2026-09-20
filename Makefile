@@ -1,8 +1,14 @@
-CC = gcc
+#CC = gcc
+
+# DO NOT COMPILE WITH -fomit-frame-pointer
+# IT WILL BREAK perf record --call-graph
 CFLAGS = -O2 -Wall -Wextra -std=gnu11
 BIN = clockres round-trip-pipes latency throughput
 
 all: $(addprefix out/,$(BIN))
+
+get_perf_list:
+	sudo perf list --details > perf_events.txt
 
 out:
 	mkdir -p out

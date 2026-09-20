@@ -114,6 +114,11 @@ int main(void)
         exit(1);
     }
 
+    // Given that a pipe is a uni-directional structure,
+    // Setting one end will automatically set the other
+    set_pipe_length(a2b[0]);
+    set_pipe_length(b2a[0]);
+
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork");

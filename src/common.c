@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <x86intrin.h>
 
 #define CALIBRATION_TRIALS 10
@@ -20,6 +21,19 @@ pin_to_cpu(int cpu)
     if (sched_setaffinity(0, sizeof(set), &set) != 0) {
         perror("sched_setaffinity");
         exit(1);
+    }
+    struct sched_param param = { 99 };
+    if (sched_setscheduler(0, SCHED_FIFO, &param) != 0) {
+        perror("sched_setscheduler");
+        exit(1);
+    }
+}
+
+void
+set_pipe_length(int fd)
+{
+    if (fcntl(fd, F_SETPIPE_SZ, PIPE_LENGTH) == -1) {
+        perror("F_SETPIPE_SZ");
     }
 }
 
