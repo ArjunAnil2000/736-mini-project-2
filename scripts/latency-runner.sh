@@ -18,6 +18,8 @@ set -euo pipefail
 PARENT_CPU=0
 CHILD_CPU=1
 FREQ=4000000 # kHz = 4000 MHz
+WARMUP=20      # untimed rounds per message size (also where memcmp runs)
+ITERATIONS=2000 # timed rounds per message size
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -46,9 +48,10 @@ echo "== pinning CPU $PARENT_CPU (parent) ==" >&2
 echo "== pinning CPU $CHILD_CPU (child) ==" >&2
 "$SCRIPT_DIR/pin_freq.sh" "$CHILD_CPU" "$FREQ" >&2
 
-echo "== running latency (parent on CPU $PARENT_CPU, child on CPU $CHILD_CPU) ==" >&2
+echo "== running latency (parent on CPU $PARENT_CPU, child on CPU $CHILD_CPU," \
+     "$WARMUP warmup + $ITERATIONS timed rounds per size) ==" >&2
 if [ -n "${SUDO_USER:-}" ]; then
-    sudo -u "$SUDO_USER" "$BIN"
+    sudo -u "$SUDO_USER" "$BIN" "$WARMUP" "$ITERATIONS"
 else
-    "$BIN"
+    "$BIN" "$WARMUP" "$ITERATIONS"
 fi
