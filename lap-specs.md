@@ -110,6 +110,11 @@ $ getconf PAGE_SIZE
 ```
 
 ```
+$ getconf PIPE_BUF /
+TODO: RUN THIS.
+```
+
+```
 $ cat /proc/sys/fs/pipe-max-size
 1048576
 ```

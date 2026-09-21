@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="CloudLab (6b7a652b-fc59-4584-97cc-39a054853c25)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.h74DQsitJD/736-mini-project-2" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Lambda Cloud Instance Remote Host (d8c17139-a8c6-4f7c-92ec-1591ea9ace83)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Lambda Cloud Remote Instance Host">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="UW-Madison CAE Euler Remote Host (4f8d8541-b179-4adf-bad3-501f9aa1b68e)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="UW-Madison CAE Tux Remote Host (2afeff77-429d-4ce7-b0c8-d0c1a3627552)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
