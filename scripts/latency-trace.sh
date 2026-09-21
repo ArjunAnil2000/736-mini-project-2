@@ -12,7 +12,9 @@
 #                                                                        -> perf_cycles_<size>.data
 #   4. strace      - every syscall of the benchmark                      -> strace_latency.<pid>
 #   5. ftrace      - kernel call graph under read()/write()              -> trace.dat
-#   then trace_summary.py turns it into summary.txt.
+#   then trace_summary.py turns it into summary.txt, and two further scripts write their own directories:
+#     wakeup/       wakeup_timeline.py  - every wakeup broken into phases (from the tracepoints)
+#     flamegraphs/  ftrace_flamegraph.py - kernel call tree under read()/write() (from trace.dat)
 #
 # Must be run with sudo. CPU 0 (parent) and CPU 1 (child) are P-cores pinned to 4000 MHz; the tracers
 # run on CPU 2 (also pinned). The benchmark is dropped to the invoking user.
@@ -86,5 +88,23 @@ do_strace "$BIN" -n -q "$TRACE_WARMUP" "$TRACE_ITERATIONS"
 echo "==== 5/5 ftrace (trace-cmd) ====" >&2
 do_ftrace "$BIN" -n -q "$TRACE_WARMUP" "$TRACE_ITERATIONS"
 
+# matplotlib is installed for the invoking USER only; this script runs as root, whose python cannot see it,
+# so every chart used to be skipped silently. Point root's python at the user's site-packages (read-only use;
+# PYTHONDONTWRITEBYTECODE keeps root from writing files there).
+USER_HOME="$(getent passwd "$SUDO_USER" | cut -d: -f6)"
+USER_SITE="$(HOME="$USER_HOME" python3 -c 'import site; print(site.getusersitepackages())')"
+MPLCONFIGDIR="$(mktemp -d)"   # matplotlib font cache, kept out of the results directory
+export PYTHONPATH="$USER_SITE${PYTHONPATH:+:$PYTHONPATH}" MPLCONFIGDIR
+
 echo "==== summary ====" >&2
 PYTHONDONTWRITEBYTECODE=1 python3 "$SCRIPT_DIR/trace_summary.py" "$RUN_DIR" | tee "$RUN_DIR/summary.txt" >&2
+
+# Extra outputs, in their own directories (never mixed into summary.txt). A failure here must not fail
+# the run: the raw captures are already saved.
+echo "==== wakeup timeline -> $RUN_DIR/wakeup/ ====" >&2
+PYTHONDONTWRITEBYTECODE=1 python3 "$SCRIPT_DIR/wakeup_timeline.py" "$RUN_DIR" >&2 \
+    || echo "(wakeup_timeline.py failed; re-run it by hand on $RUN_DIR)" >&2
+echo "==== ftrace flame graphs -> $RUN_DIR/flamegraphs/ ====" >&2
+PYTHONDONTWRITEBYTECODE=1 python3 "$SCRIPT_DIR/ftrace_flamegraph.py" "$RUN_DIR" >&2 \
+    || echo "(ftrace_flamegraph.py failed; re-run it by hand on $RUN_DIR)" >&2
+rm -rf "$MPLCONFIGDIR"

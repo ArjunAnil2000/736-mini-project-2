@@ -1,0 +1,134 @@
+ftrace flame graph inputs: 445964 call trees from trace.dat; times are function_graph self time
+(inflated by tracing: compare rows with each other, not against real microseconds)
+
+all message sizes: widest boxes by self time (blocked time included)
+                     function   self us  % of time
+  ---------------------------  --------  ---------
+                     schedule  26,859.1      24.0%
+          mutex_spin_on_owner  24,299.0      21.7%
+               anon_pipe_read   5,000.2       4.5%
+      obj_cgroup_charge_pages   3,358.2       3.0%
+               uncharge_batch   3,271.2       2.9%
+              __rcu_read_lock   2,864.1       2.6%
+            __rcu_read_unlock   2,828.8       2.5%
+            __mod_memcg_state   1,986.9       1.8%
+        page_counter_uncharge   1,745.0       1.6%
+  __alloc_frozen_pages_noprof   1,672.5       1.5%
+               uncharge_folio   1,624.1       1.5%
+          __free_frozen_pages   1,551.0       1.4%
+
+all message sizes: widest boxes by self time, blocked (off-CPU) time removed
+                     function   self us  % of time
+  ---------------------------  --------  ---------
+          mutex_spin_on_owner  24,299.0      28.6%
+               anon_pipe_read   5,000.2       5.9%
+      obj_cgroup_charge_pages   3,358.2       3.9%
+               uncharge_batch   3,271.2       3.8%
+              __rcu_read_lock   2,864.1       3.4%
+            __rcu_read_unlock   2,828.8       3.3%
+            __mod_memcg_state   1,986.9       2.3%
+        page_counter_uncharge   1,745.0       2.1%
+  __alloc_frozen_pages_noprof   1,672.5       2.0%
+               uncharge_folio   1,624.1       1.9%
+          __free_frozen_pages   1,551.0       1.8%
+     __memcg_kmem_charge_page   1,317.1       1.5%
+
+
+4 B messages: widest boxes by self time (blocked time included)
+                  function  self us  % of time
+  ------------------------  -------  ---------
+                  schedule    265.2      37.3%
+            anon_pipe_read     25.6       3.6%
+            pick_next_task     18.1       2.6%
+          psi_group_change     15.8       2.2%
+              record_times     15.8       2.2%
+              avc_has_perm     15.0       2.1%
+           psi_task_switch     12.7       1.8%
+           __file_has_perm     12.2       1.7%
+       psi_account_irqtime     11.5       1.6%
+           anon_pipe_write     10.6       1.5%
+            try_to_wake_up     10.1       1.4%
+  security_file_permission     10.1       1.4%
+
+4 B messages: widest boxes by self time, blocked (off-CPU) time removed
+                  function  self us  % of time
+  ------------------------  -------  ---------
+            anon_pipe_read     25.6       5.7%
+            pick_next_task     18.1       4.1%
+          psi_group_change     15.8       3.5%
+              record_times     15.8       3.5%
+              avc_has_perm     15.0       3.4%
+           psi_task_switch     12.7       2.8%
+           __file_has_perm     12.2       2.7%
+       psi_account_irqtime     11.5       2.6%
+           anon_pipe_write     10.6       2.4%
+            try_to_wake_up     10.1       2.3%
+  security_file_permission     10.1       2.3%
+                 update_se      9.1       2.0%
+
+
+64 KB messages: widest boxes by self time (blocked time included)
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+                     schedule  4,967.7      51.8%
+               anon_pipe_read    560.2       5.8%
+      obj_cgroup_charge_pages    260.9       2.7%
+               uncharge_batch    253.2       2.6%
+            __rcu_read_unlock    213.1       2.2%
+              __rcu_read_lock    210.4       2.2%
+            __mod_memcg_state    154.5       1.6%
+        page_counter_uncharge    149.6       1.6%
+               uncharge_folio    137.8       1.4%
+  __alloc_frozen_pages_noprof    127.4       1.3%
+          __free_frozen_pages    122.0       1.3%
+       get_page_from_freelist    117.8       1.2%
+
+64 KB messages: widest boxes by self time, blocked (off-CPU) time removed
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+               anon_pipe_read    560.2      12.1%
+      obj_cgroup_charge_pages    260.9       5.6%
+               uncharge_batch    253.2       5.5%
+            __rcu_read_unlock    213.1       4.6%
+              __rcu_read_lock    210.4       4.6%
+            __mod_memcg_state    154.5       3.3%
+        page_counter_uncharge    149.6       3.2%
+               uncharge_folio    137.8       3.0%
+  __alloc_frozen_pages_noprof    127.4       2.8%
+          __free_frozen_pages    122.0       2.6%
+       get_page_from_freelist    117.8       2.5%
+     __memcg_kmem_charge_page    102.6       2.2%
+
+
+512 KB messages: widest boxes by self time (blocked time included)
+                     function   self us  % of time
+  ---------------------------  --------  ---------
+          mutex_spin_on_owner  18,019.1      28.8%
+                     schedule  11,034.3      17.6%
+               anon_pipe_read   2,485.9       4.0%
+      obj_cgroup_charge_pages   2,028.6       3.2%
+               uncharge_batch   1,972.4       3.2%
+              __rcu_read_lock   1,717.4       2.7%
+            __rcu_read_unlock   1,676.6       2.7%
+            __mod_memcg_state   1,195.8       1.9%
+        page_counter_uncharge   1,041.7       1.7%
+  __alloc_frozen_pages_noprof     991.4       1.6%
+               uncharge_folio     974.1       1.6%
+          __free_frozen_pages     939.5       1.5%
+
+512 KB messages: widest boxes by self time, blocked (off-CPU) time removed
+                     function   self us  % of time
+  ---------------------------  --------  ---------
+          mutex_spin_on_owner  18,019.1      35.0%
+               anon_pipe_read   2,485.9       4.8%
+      obj_cgroup_charge_pages   2,028.6       3.9%
+               uncharge_batch   1,972.4       3.8%
+              __rcu_read_lock   1,717.4       3.3%
+            __rcu_read_unlock   1,676.6       3.3%
+            __mod_memcg_state   1,195.8       2.3%
+        page_counter_uncharge   1,041.7       2.0%
+  __alloc_frozen_pages_noprof     991.4       1.9%
+               uncharge_folio     974.1       1.9%
+          __free_frozen_pages     939.5       1.8%
+     __memcg_kmem_charge_page     799.1       1.6%
+

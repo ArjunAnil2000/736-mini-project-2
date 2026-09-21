@@ -452,6 +452,8 @@ def chart_breakdown(d, szs, prof, kcyc, label):
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
+        print("\n   !! matplotlib is not importable here (as root it lives only in the user's site-packages):")
+        print("   breakdown chart NOT written. Re-run with PYTHONPATH pointing at the user's site-packages.")
         return
     colors = ["#1f5fbf", "#e67e22", "#8e44ad", "#c0392b", "#16a085", "#7f8c8d", "#f1c40f", "#bdc3c7", "#2c3e50", "#95a5a6"]
     plt.rcParams.update({"font.size": 10, "axes.labelsize": 11})
