@@ -2,7 +2,8 @@
 
 # DO NOT COMPILE WITH -fomit-frame-pointer
 # IT WILL BREAK perf record --call-graph
-CFLAGS = -O2 -Wall -Wextra -std=gnu11
+# YOU MUST COMPILE WITH -g OR STRACE FAILS TO STACK TRACE
+CFLAGS = -O2 -Wall -Wextra -std=gnu11 -g
 BIN = clockres round-trip-pipes latency throughput
 
 all: $(addprefix out/,$(BIN))

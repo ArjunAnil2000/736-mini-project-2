@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="CloudLab (6b7a652b-fc59-4584-97cc-39a054853c25)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.h74DQsitJD/736-mini-project-2" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Lambda Cloud Instance Remote Host (d8c17139-a8c6-4f7c-92ec-1591ea9ace83)">
         <serverdata>
           <mappings>

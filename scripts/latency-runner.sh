@@ -22,23 +22,35 @@ FREQ=4000000 # kHz = 4000 MHz
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-BIN="nice -n -20 $ROOT_DIR/out/latency"
+BIN="nice -n -20 sudo -u \"$SUDO_USER\" $ROOT_DIR/out/latency"
+
+HW_EVENTS="$(perf --no-pager list --raw-dump hw | xargs | tr ' ' ',')"
+SW_EVENTS="$(perf --no-pager list --raw-dump sw | xargs | tr ' ' ',')"
+CACHE_EVENTS="$(perf --no-pager list --raw-dump cache | xargs | tr ' ' ',')"
+PIPELINE_EVENTS="$(sudo perf --no-pager list --raw-dump pipeline | xargs | tr ' ' ',')"
+VIRTUAL_MEMORY_EVENTS="$(sudo perf --no-pager list --raw-dump 'virtual memory' | xargs | tr ' ' ',')"
+MEMORY_EVENTS="$(sudo perf --no-pager list --raw-dump memory | xargs | tr ' ' ',')"
+FRONTEND_EVENTS="$(sudo perf --no-pager list --raw-dump frontend | xargs | tr ' ' ',')"
 
 # Consider adding cpu-clock if you suspect that fixing the DVFS has failed.
-PERF="taskset -c 2 nice -n -20 perf record \
--e context-switches \
--e emulation-faults \
--e task-clock \
--e msr/pperf/ \
--e msr/smi/ \
+PERF="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" perf record \
+-e $HW_EVENTS \
+-e $SW_EVENTS \
+-e $CACHE_EVENTS \
+-e $PIPELINE_EVENTS \
+-e $VIRTUAL_MEMORY_EVENTS \
+-e $MEMORY_EVENTS \
+-e $FRONTEND_EVENTS \
+-e '{cycles,msr/aperf/,msr/mperf/,msr/pperf/,msr/smi/}:S' \
 -e syscalls:sys_*_pipe \
 -e syscalls:sys_*_pipe2 \
+-e syscalls:sys_*_read* \
+-e syscalls:sys_*_write* \
 --latency \
 --cpu 0-1 \
 --realtime=99 \
 --output=perf.data \
 --freq=max \
---call-graph lbr \
 --stat \
 --data \
 --phys-data \
@@ -55,15 +67,34 @@ PERF="taskset -c 2 nice -n -20 perf record \
 --user-regs \
 --running-time \
 --timestamp-filename \
---synth=all --
+--synth=all \
+-e mem-loads \
+-e mem-stores \
+-e intel_pt// \
+-e context_tracking:* \
+-e damon:* \
+-e ftrace:* \
+-e io_uring:* \
+-e kmem:* \
+-e lock:* \
+-e msr:rdpmc \
+-e osnoise:osnoise_sample \
+-e osnoise:sample_threshold \
+-e osnoise:thread_noise \
+-e percpu:* \
+-e power:cpu_idle \
+-e power:cpu_idle_miss \
+-e sched:* \
+-e task:task_newtask \
+-e vmscan:* --
 "
 # perf record captures and dumps data
-# context-switches records context switches
-# emulation-faults records when software emulation is required for an unsupported instruction
 # major-faults records "major" page faults
 # minor-faults record "minor" page faults
 # You may consider combining the top two and use page-faults instead
 # REF: https://sandpile.org/x86/msr.htm
+# msr/aperf/ records the "actual performance clock count" MSR
+# msr/mperf/ records the "maximum performance clock count" MSR
 # msr/pperf/ records the "productive performance clock count" MSR
 # msr/smi/ records miscellaneous CPU resource management operations
 # msr/tsc/ records the TSC, yes the thing your code already does, but it affiliates events to the TSC
@@ -71,7 +102,6 @@ PERF="taskset -c 2 nice -n -20 perf record \
 # cpu records CPUs 0 to 1
 # realtime=99 ensures the highest schedule priority, which should be fine since it's pinned to a CPU core
 # freq=max ensures maximum frequency profiling
-# call-graph ensures call graph recording, and if lbr fails, use dwarf with sufficient storage, then fp last
 # stat measures per-thread event counts
 # data records the sample virtual address
 # phys-data records the sample physical address
@@ -90,11 +120,58 @@ PERF="taskset -c 2 nice -n -20 perf record \
 # running-time captures running and enabled time for read events
 # timestamp-filename appends the timestamp to the output file name
 # synth=all records events on FORK, COMM, MMAP, and CGROUP
+# mem-loads and mem-stores are self-explanatory
+# intel_pt// is the Processor Trace
+# context_tracking:* records context switches between userland and kernel
+# damon:* records Data Access MONitor related data for DRAM level operations
+# ftrace:* records a subset of ftrace functionality
+# io_uring:* records its async i/o, just in case
+# kmem:* record kernel memory operations
+# lock:* records kernel-level lock contentions
+# msr:rdpmc records the RDPMC (Read Performance-Monitoring Counters) register
+# osnoise:osnoise_sample records OS noise
+# osnoise:sample_threshold records the OS noise threshold
+# osnoise:thread_noise records OS thread noise
+# percpu:* records per CPU information
+# power:cpu_idle records when the CPU idles
+# power:cpu_idle_miss records when the CPU idles wrongly
+# sched:* record all scheduling events
+# task:task_newtask records when a new task is created
+# vmscan:* records all vmem scanning, for page reclaim
+# uncore_imc_free_running:* records integrated memory counters (iMC) operations
 
-PERF2="perf stat \
--M tma_bottleneck_irregular_overhead
+STRACE="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" strace \
+-e all \
+--follow-forks \
+--output-separately \
+--output=strace_latency \
+--status=all \
+--verbose=all \
+--decode-fds=all \
+--decode-pids=comm,pidns \
+--instruction-pointer \
+--syscall-number \
+--arg-names \
+--stack-trace=source \
+--relative-timestamps=ns \
+--absolute-timestamps=format:unix,precision:us \
+--syscall-times=us \
+--no-abbrev \
+--const-print-style=verbose
 "
 
+# No singular man page, so https://docs.kernel.org/trace/ftrace.html
+# https://man7.org/linux/man-pages/man1/trace-cmd.1.html
+# https://man7.org/linux/man-pages/man1/trace-cmd-record.1.html
+FTRACE="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" trace-cmd record \
+-p function_graph \
+-K \
+-a \
+-T \
+-r 99 \
+--date \
+--proc-map \
+"
 
 if [ ! -x "$BIN" ]; then
     echo "error: $BIN not found or not executable (run 'make' first)" >&2
@@ -126,7 +203,36 @@ echo "== pinning CPU $TRACE_CPU (trace) ==" >&2
 echo "== running latency (parent on CPU $PARENT_CPU, child on CPU $CHILD_CPU) ==" >&2
 if [ -n "${SUDO_USER:-}" ]; then
     echo "==== running perf capture ====" >&2
-    sudo -u "$SUDO_USER" "$BIN"
+    eval "$PERF \"$BIN\""
+    echo "==== running strace capture ====" >&2
+    eval "$STRACE \"$BIN\""
+
+    echo "==== running ftrace capture ====" >&2
+    sudo sh -c "
+    echo 0                    >  /sys/kernel/tracing/tracing_on
+    echo                      >  /sys/kernel/tracing/trace
+    echo                      >  /sys/kernel/tracing/set_event
+    echo 'sched:*'            >> /sys/kernel/tracing/set_event
+    echo 'syscalls:*'         >> /sys/kernel/tracing/set_event
+    echo 'irq:*'              >> /sys/kernel/tracing/set_event
+    echo 'workqueue:*'        >> /sys/kernel/tracing/set_event
+    echo 'kmem:*'             >> /sys/kernel/tracing/set_event
+    echo 'context_tracking:*' >> /sys/kernel/tracing/set_event
+    echo 'damon:*'            >> /sys/kernel/tracing/set_event
+    echo 'ftrace:*'           >> /sys/kernel/tracing/set_event
+    echo 'io_uring:*'         >> /sys/kernel/tracing/set_event
+    echo 'lock:*'             >> /sys/kernel/tracing/set_event
+    echo 'osnoise:*'          >> /sys/kernel/tracing/set_event
+    echo 'percpu:*'           >> /sys/kernel/tracing/set_event
+    echo 'power:*'            >> /sys/kernel/tracing/set_event
+    echo 'task:*'             >> /sys/kernel/tracing/set_event
+    echo 'vmscan:*'           >> /sys/kernel/tracing/set_event
+    "
+
+    sudo sh -c "
+        echo 0                    >  /sys/kernel/tracing/tracing_on
+        echo                      >  /sys/kernel/tracing/set_event
+        "
 else
     "$BIN"
 fi
