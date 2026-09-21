@@ -1,242 +1,90 @@
 #!/usr/bin/env bash
-# Tracing harness for latency (perf record, strace, ftrace). Split out of latency-runner.sh,
-# which is now the plain pin + run + unpin script that produces the CSV. Code below is otherwise
-# unchanged from the original (known issues not yet addressed - see CLAUDE.md).
+# Tracing harness for latency: explains WHERE THE TIME GOES (perf stat, perf record, strace, ftrace).
+# Started as Aidan's perf/strace/ftrace harness (split out of latency-runner.sh); the shared logic is
+# now in trace-lib.sh so a throughput-trace.sh can reuse it. The numbers to REPORT for latency come
+# from latency-runner.sh, not from here: tracing perturbs timing.
 #
-# Runs latency one time.
-# 1. checks the latency binary exists
-# 2. pins both target CPUs' frequency (scripts/pin_freq.sh), one per process
-# 3. runs latency (it pins its own CPU affinity internally - see src/latency.c - so no taskset
-#    is needed here, unlike clockres-runner.sh)
-# 4. unpins both CPUs' frequency again (scripts/unpin_freq.sh), even if the run fails
+# Steps (all output in results/trace/latency/<timestamp>/):
+#   1. perf stat   - per message size, 5 counter groups, plus a baseline per group (startup cost,
+#                    subtracted by trace_summary.py)                     -> stat_<group>_<size>.csv
+#   2. perf record - every scheduling/syscall/idle/IPI/... tracepoint    -> perf_trace.data
+#   3. perf record - cycles sampled with call graphs, per size (4 B, 64 KB, 512 KB)
+#                                                                        -> perf_cycles_<size>.data
+#   4. strace      - every syscall of the benchmark                      -> strace_latency.<pid>
+#   5. ftrace      - kernel call graph under read()/write()              -> trace.dat
+#   then trace_summary.py turns it into summary.txt.
 #
-# Must be run with sudo (steps 2 and 4 need root). The actual benchmark in step 3 is dropped
-# back to the invoking user via sudo -u, so latency itself never runs as root.
+# Must be run with sudo. CPU 0 (parent) and CPU 1 (child) are P-cores pinned to 4000 MHz; the tracers
+# run on CPU 2 (also pinned). The benchmark is dropped to the invoking user.
 #
-# CPU 0 (parent) and CPU 1 (child) are both P-cores, pinned to a constant 4000 MHz.
-#
-# Usage: sudo ./scripts/latency-trace.sh
+# Usage: sudo ./scripts/latency-trace.sh 2>&1 | tee results/trace-run.log
 
 set -euo pipefail
 
-PARENT_CPU=0
-CHILD_CPU=1
-TRACE_CPU=2
-FREQ=4000000 # kHz = 4000 MHz
-
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-BIN="nice -n -20 sudo -u \"$SUDO_USER\" $ROOT_DIR/out/latency"
+TRACE_NAME=latency
+BIN="$ROOT_DIR/out/latency"
 
-HW_EVENTS="$(perf --no-pager list --raw-dump hw | xargs | tr ' ' ',')"
-SW_EVENTS="$(perf --no-pager list --raw-dump sw | xargs | tr ' ' ',')"
-CACHE_EVENTS="$(perf --no-pager list --raw-dump cache | xargs | tr ' ' ',')"
-PIPELINE_EVENTS="$(sudo perf --no-pager list --raw-dump pipeline | xargs | tr ' ' ',')"
-VIRTUAL_MEMORY_EVENTS="$(sudo perf --no-pager list --raw-dump 'virtual memory' | xargs | tr ' ' ',')"
-MEMORY_EVENTS="$(sudo perf --no-pager list --raw-dump memory | xargs | tr ' ' ',')"
-FRONTEND_EVENTS="$(sudo perf --no-pager list --raw-dump frontend | xargs | tr ' ' ',')"
+# Round counts per phase. They differ on purpose:
+#   perf stat     needs many rounds so the benchmark dwarfs the fixed startup cost (which is also
+#                 measured and subtracted); warmup is counted too, hence the division in the summary
+#   tracepoints,  small: they record every event, and 5+10 rounds per size is plenty to read
+#   strace, ftrace
+#   cycles        many rounds: sampling needs enough samples to be statistically meaningful; one
+#                 profile per size, because the cost is dominated by different things at 4 B (fixed
+#                 syscall + wakeup cost) and 512 KB (copying), and one mixed profile hides that. The
+#                 iteration counts aim at roughly 0.5-1 s of benchmark work each.
+# Every traced run uses -n (no clock calibration) AND -q (no per-iteration printf, whose cost would
+# otherwise be counted as if it were pipe cost).
+STAT_WARMUP=10;   STAT_ITERATIONS=3000;  STAT_BASELINES=3
+TRACE_WARMUP=5;   TRACE_ITERATIONS=10
+CYCLES_WARMUP=20
+CYCLES_SIZES=(4 65536 524288)
+declare -A CYCLES_ITERATIONS=([4]=200000 [65536]=50000 [524288]=5000)
 
-# Consider adding cpu-clock if you suspect that fixing the DVFS has failed.
-PERF="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" perf record \
--e $HW_EVENTS \
--e $SW_EVENTS \
--e $CACHE_EVENTS \
--e $PIPELINE_EVENTS \
--e $VIRTUAL_MEMORY_EVENTS \
--e $MEMORY_EVENTS \
--e $FRONTEND_EVENTS \
--e '{cycles,msr/aperf/,msr/mperf/,msr/pperf/,msr/smi/}:S' \
--e syscalls:sys_*_pipe \
--e syscalls:sys_*_pipe2 \
--e syscalls:sys_*_read* \
--e syscalls:sys_*_write* \
---latency \
---cpu 0-1 \
---realtime=99 \
---output=perf.data \
---freq=max \
---stat \
---data \
---phys-data \
---data-page-size \
---code-page-size \
---timestamp \
---period \
---sample-cpu \
---sample-identifier \
---sample-mem-info \
---raw-samples \
---branch-any \
---intr-regs \
---user-regs \
---running-time \
---timestamp-filename \
---synth=all \
--e mem-loads \
--e mem-stores \
--e intel_pt// \
--e context_tracking:* \
--e damon:* \
--e ftrace:* \
--e io_uring:* \
--e kmem:* \
--e lock:* \
--e msr:rdpmc \
--e osnoise:osnoise_sample \
--e osnoise:sample_threshold \
--e osnoise:thread_noise \
--e percpu:* \
--e power:cpu_idle \
--e power:cpu_idle_miss \
--e sched:* \
--e task:task_newtask \
--e vmscan:* --
-"
-# perf record captures and dumps data
-# major-faults records "major" page faults
-# minor-faults record "minor" page faults
-# You may consider combining the top two and use page-faults instead
-# REF: https://sandpile.org/x86/msr.htm
-# msr/aperf/ records the "actual performance clock count" MSR
-# msr/mperf/ records the "maximum performance clock count" MSR
-# msr/pperf/ records the "productive performance clock count" MSR
-# msr/smi/ records miscellaneous CPU resource management operations
-# msr/tsc/ records the TSC, yes the thing your code already does, but it affiliates events to the TSC
-# latency records latency
-# cpu records CPUs 0 to 1
-# realtime=99 ensures the highest schedule priority, which should be fine since it's pinned to a CPU core
-# freq=max ensures maximum frequency profiling
-# stat measures per-thread event counts
-# data records the sample virtual address
-# phys-data records the sample physical address
-# data-page-size records the sampled data address data page size
-# code-page-size records the sampled code address (ip) page size
-# timestamp records the sample timestamps
-# period recors the sample period
-# sample-cpu records the sample CPU
-# sample-identifier records the sample identifier
-# sample-mem-info records memory operations
-# raw-samples records raw samples of all opened counters
-# branch-any records all taken branch stacks
-# weight enables weighted sampling
-# intr-regs captures all registers at interrupts
-# user-regs captures all registers at sample time
-# running-time captures running and enabled time for read events
-# timestamp-filename appends the timestamp to the output file name
-# synth=all records events on FORK, COMM, MMAP, and CGROUP
-# mem-loads and mem-stores are self-explanatory
-# intel_pt// is the Processor Trace
-# context_tracking:* records context switches between userland and kernel
-# damon:* records Data Access MONitor related data for DRAM level operations
-# ftrace:* records a subset of ftrace functionality
-# io_uring:* records its async i/o, just in case
-# kmem:* record kernel memory operations
-# lock:* records kernel-level lock contentions
-# msr:rdpmc records the RDPMC (Read Performance-Monitoring Counters) register
-# osnoise:osnoise_sample records OS noise
-# osnoise:sample_threshold records the OS noise threshold
-# osnoise:thread_noise records OS thread noise
-# percpu:* records per CPU information
-# power:cpu_idle records when the CPU idles
-# power:cpu_idle_miss records when the CPU idles wrongly
-# sched:* record all scheduling events
-# task:task_newtask records when a new task is created
-# vmscan:* records all vmem scanning, for page reclaim
-# uncore_imc_free_running:* records integrated memory counters (iMC) operations
+source "$SCRIPT_DIR/trace-lib.sh"
+trace_setup
 
-STRACE="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" strace \
--e all \
---follow-forks \
---output-separately \
---output=strace_latency \
---status=all \
---verbose=all \
---decode-fds=all \
---decode-pids=comm,pidns \
---instruction-pointer \
---syscall-number \
---arg-names \
---stack-trace=source \
---relative-timestamps=ns \
---absolute-timestamps=format:unix,precision:us \
---syscall-times=us \
---no-abbrev \
---const-print-style=verbose
-"
+trace_params "stat_warmup=$STAT_WARMUP" "stat_iterations=$STAT_ITERATIONS" \
+    "trace_warmup=$TRACE_WARMUP" "trace_iterations=$TRACE_ITERATIONS" \
+    "stat_baselines=$STAT_BASELINES" "cycles_warmup=$CYCLES_WARMUP" \
+    "cycles_sizes=${CYCLES_SIZES[*]}" \
+    "cycles_iterations_4=${CYCLES_ITERATIONS[4]}" "cycles_iterations_65536=${CYCLES_ITERATIONS[65536]}" \
+    "cycles_iterations_524288=${CYCLES_ITERATIONS[524288]}" \
+    "sizes=${SIZES[*]}" "groups=${#STAT_GROUPS[@]}" "freq_khz=$FREQ" \
+    "parent_cpu=$PARENT_CPU" "child_cpu=$CHILD_CPU" "tracer_cpu=$TRACE_CPU"
 
-# No singular man page, so https://docs.kernel.org/trace/ftrace.html
-# https://man7.org/linux/man-pages/man1/trace-cmd.1.html
-# https://man7.org/linux/man-pages/man1/trace-cmd-record.1.html
-FTRACE="taskset -c 2 nice -n -20 sudo -u \"$SUDO_USER\" trace-cmd record \
--p function_graph \
--K \
--a \
--T \
--r 99 \
---date \
---proc-map \
-"
-
-if [ ! -x "$BIN" ]; then
-    echo "error: $BIN not found or not executable (run 'make' first)" >&2
-    exit 1
-fi
-
-if [ "$(id -u)" -ne 0 ]; then
-    echo "error: must be run with sudo (needed to pin/unpin CPU frequency)" >&2
-    exit 1
-fi
-
-cleanup() {
-    echo "== unpinning CPU $PARENT_CPU (parent) ==" >&2
-    "$SCRIPT_DIR/unpin_freq.sh" "$PARENT_CPU" >&2
-    echo "== unpinning CPU $CHILD_CPU (child) ==" >&2
-    "$SCRIPT_DIR/unpin_freq.sh" "$CHILD_CPU" >&2
-    echo "== unpinning CPU $TRACE_CPU (trace) ==" >&2
-    "$SCRIPT_DIR/unpin_freq.sh" "$TRACE_CPU" >&2
-}
-trap cleanup EXIT
-
-echo "== pinning CPU $PARENT_CPU (parent) ==" >&2
-"$SCRIPT_DIR/pin_freq.sh" "$PARENT_CPU" "$FREQ" >&2
-echo "== pinning CPU $CHILD_CPU (child) ==" >&2
-"$SCRIPT_DIR/pin_freq.sh" "$CHILD_CPU" "$FREQ" >&2
-echo "== pinning CPU $TRACE_CPU (trace) ==" >&2
-"$SCRIPT_DIR/pin_freq.sh" "$TRACE_CPU" "$FREQ" >&2
-
+# -n: no TSC calibration (see trace-lib.sh). All benchmark output is discarded by the do_* helpers.
 echo "== running latency (parent on CPU $PARENT_CPU, child on CPU $CHILD_CPU) ==" >&2
-if [ -n "${SUDO_USER:-}" ]; then
-    echo "==== running perf capture ====" >&2
-    eval "$PERF \"$BIN\""
-    echo "==== running strace capture ====" >&2
-    eval "$STRACE \"$BIN\""
 
-    echo "==== running ftrace capture ====" >&2
-    sudo sh -c "
-    echo 0                    >  /sys/kernel/tracing/tracing_on
-    echo                      >  /sys/kernel/tracing/trace
-    echo                      >  /sys/kernel/tracing/set_event
-    echo 'sched:*'            >> /sys/kernel/tracing/set_event
-    echo 'syscalls:*'         >> /sys/kernel/tracing/set_event
-    echo 'irq:*'              >> /sys/kernel/tracing/set_event
-    echo 'workqueue:*'        >> /sys/kernel/tracing/set_event
-    echo 'kmem:*'             >> /sys/kernel/tracing/set_event
-    echo 'context_tracking:*' >> /sys/kernel/tracing/set_event
-    echo 'damon:*'            >> /sys/kernel/tracing/set_event
-    echo 'ftrace:*'           >> /sys/kernel/tracing/set_event
-    echo 'io_uring:*'         >> /sys/kernel/tracing/set_event
-    echo 'lock:*'             >> /sys/kernel/tracing/set_event
-    echo 'osnoise:*'          >> /sys/kernel/tracing/set_event
-    echo 'percpu:*'           >> /sys/kernel/tracing/set_event
-    echo 'power:*'            >> /sys/kernel/tracing/set_event
-    echo 'task:*'             >> /sys/kernel/tracing/set_event
-    echo 'vmscan:*'           >> /sys/kernel/tracing/set_event
-    "
+echo "==== 1/5 perf stat: ${#STAT_GROUPS[@]} groups x ${#SIZES[@]} sizes + baselines ====" >&2
+for gi in "${!STAT_GROUPS[@]}"; do
+    # baselines: the same program doing a single round trip, i.e. (almost) only startup cost. Several,
+    # and the summary takes the median, because one baseline's own noise shows up in every size.
+    for k in $(seq 1 "$STAT_BASELINES"); do
+        do_perf_stat "$RUN_DIR/stat_${gi}_baseline_${k}.csv" "${STAT_GROUPS[$gi]}" "$BIN" -n -q -s 4 0 1
+    done
+    for sz in "${SIZES[@]}"; do
+        do_perf_stat "$RUN_DIR/stat_${gi}_${sz}.csv" "${STAT_GROUPS[$gi]}" \
+            "$BIN" -n -q -s "$sz" "$STAT_WARMUP" "$STAT_ITERATIONS"
+    done
+done
 
-    sudo sh -c "
-        echo 0                    >  /sys/kernel/tracing/tracing_on
-        echo                      >  /sys/kernel/tracing/set_event
-        "
-else
-    "$BIN"
-fi
+echo "==== 2/5 perf record: tracepoints ====" >&2
+do_perf_trace "$RUN_DIR/perf_trace.data" "$BIN" -n -q "$TRACE_WARMUP" "$TRACE_ITERATIONS"
+
+echo "==== 3/5 perf record: cycles + call graphs, per size ====" >&2
+for sz in "${CYCLES_SIZES[@]}"; do
+    do_perf_cycles "$RUN_DIR/perf_cycles_${sz}.data" \
+        "$BIN" -n -q -s "$sz" "$CYCLES_WARMUP" "${CYCLES_ITERATIONS[$sz]}"
+done
+
+echo "==== 4/5 strace ====" >&2
+do_strace "$BIN" -n -q "$TRACE_WARMUP" "$TRACE_ITERATIONS"
+
+echo "==== 5/5 ftrace (trace-cmd) ====" >&2
+do_ftrace "$BIN" -n -q "$TRACE_WARMUP" "$TRACE_ITERATIONS"
+
+echo "==== summary ====" >&2
+PYTHONDONTWRITEBYTECODE=1 python3 "$SCRIPT_DIR/trace_summary.py" "$RUN_DIR" | tee "$RUN_DIR/summary.txt" >&2

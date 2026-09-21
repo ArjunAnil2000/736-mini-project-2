@@ -1,0 +1,5 @@
+# started on Mon Sep 21 12:43:25 2026
+
+124158,,cpu_core/mem_load_l3_hit_retired.xsnp_hitm/,29026899,100.00,,
+774,,cpu_core/mem_load_l3_hit_retired.xsnp_fwd/,29026899,100.00,,
+137078,,cpu_core/mem_load_retired.l2_miss/,29026899,100.00,,

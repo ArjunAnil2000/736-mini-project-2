@@ -1,0 +1,10 @@
+# started on Mon Sep 21 12:43:23 2026
+
+<not counted>,,cpu_atom/cache-references/,0,0.00,,
+309062,,cpu_core/cache-references/,14758723,100.00,,
+<not counted>,,cpu_atom/cache-misses/,0,0.00,,
+49643,,cpu_core/cache-misses/,14758723,100.00,,
+<not supported>,,cpu_atom/L1-dcache-load-misses/,0,100.00,,
+117904,,cpu_core/L1-dcache-load-misses/,14758723,100.00,,
+<not counted>,,cpu_atom/LLC-load-misses/,0,0.00,,
+0,,cpu_core/LLC-load-misses/,14758723,100.00,,

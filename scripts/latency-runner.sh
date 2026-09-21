@@ -11,7 +11,11 @@
 #
 # CPU 0 (parent) and CPU 1 (child) are both P-cores, pinned to a constant 4000 MHz.
 #
-# Usage: sudo ./scripts/latency-runner.sh [> results.csv]
+# Usage: sudo ./scripts/latency-runner.sh > results/latency_run1.csv
+# Name the outputs results/latency_run<N>.csv (N = 1, 2, 3 ...): scripts/analyze_latency.py takes the
+# minimum over all of them and shows how reproducible it is, and trace_summary.py compares its traced
+# CPU work against them. (results/latency.csv is the old UNPINNED smoke test; nothing reads it.)
+# Repeat runs:  for i in 1 2 3; do sudo make latency.run > results/latency_run$i.csv; done
 
 set -euo pipefail
 

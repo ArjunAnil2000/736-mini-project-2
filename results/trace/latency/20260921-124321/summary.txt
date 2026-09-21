@@ -1,0 +1,236 @@
+TRACE SUMMARY  latency/20260921-124321   (kernel 7.1.8-200.fc44.x86_64, CPUs pinned to 4000 MHz)
+
+====================================================================================================
+1. COUNTERS (perf stat) - per round trip, the benchmark's parent + child together
+   3010 round trips per size (10 warmup + 3000 timed), startup cost = median of 3 baseline runs, subtracted; each counter group ran alone (not multiplexed); no per-iteration printing (-q).
+
+1a. scheduling and CPU work (kcycles = thousands of cycles)
+    size  ctx-sw   migr  pg-faults  kcycles  kinstr   IPC
+  ------  ------  -----  ---------  -------  ------  ----
+       4    2.00  0.000        n/a      8.4    12.0  1.42
+      16    2.00  0.000        n/a      8.5    12.0  1.41
+      64    2.00  0.000       0.00     10.4    13.6  1.31
+     256    2.00  0.000        n/a      9.5    12.9  1.36
+    1024    2.00  0.000       0.00      9.8    12.1  1.23
+    4096    2.00  0.000        n/a     13.7    13.0  0.95
+   16384    2.00  0.000       0.00     29.8    21.2  0.71
+   65536    2.00  0.000       0.01     96.4    73.6  0.76
+  262144   14.00  0.000       0.06    409.9   309.3  0.75
+  524288   30.00  0.000       0.13    821.9   621.9  0.76
+
+1b. memory system. xsnp-hitm/fwd = loads served from the OTHER core's cache, i.e. data
+    moving between the parent's core and the child's core
+    size  cache-ref  cache-miss  miss%  L1d-miss  L2-miss  xsnp-hitm  xsnp-fwd  dTLB-miss  iTLB-miss
+  ------  ---------  ----------  -----  --------  -------  ---------  --------  ---------  ---------
+       4         68           1     1%        37       28       27.3       0.0          0          6
+      16         60           1     2%        32       29       27.4       0.1        n/a          6
+      64         69           3     5%        38       28       27.1       0.0          0          6
+     256         68           1     2%        37       28       27.2       0.0          0          6
+    1024        153           3     2%        71       27       25.0       0.0        n/a          6
+    4096        325           5     1%       141       28       25.6       0.0          0          6
+   16384        865           3     0%       542       44       41.1       0.2          0          7
+   65536      2,679           5     0%     2,944       94       82.8       7.3          0          7
+  262144     10,493          15     0%    16,894      435      375.7      16.2          1         22
+  524288     23,415          54     0%    33,750      932      773.1      36.4          7         42
+
+1c. top-down: where the CPU's pipeline slots went (P-core)
+    size  retiring  front-end  back-end  bad-spec
+  ------  --------  ---------  --------  --------
+       4     14.8%      34.2%     44.6%      6.6%
+      16     15.0%      35.2%     42.4%      6.3%
+      64     14.8%      34.5%     44.1%      7.2%
+     256     14.1%      35.4%     43.2%      7.0%
+    1024     14.3%      35.5%     44.7%      6.8%
+    4096     10.4%      28.5%     54.7%      5.6%
+   16384     10.6%      28.4%     55.7%      5.3%
+   65536      7.8%      18.6%     67.8%      3.6%
+  262144     10.8%      24.6%     61.5%      4.3%
+  524288     10.6%      21.6%     64.1%      4.3%
+
+====================================================================================================
+2. SCHEDULING, SYSCALLS, IDLE, IPIs (perf record tracepoints - EVERY occurrence, benchmark tasks only)
+   14476 events on CPUs 0-1; benchmark tasks (comm 'latency'): tids [1204566, 1204568]; 15 round trips per size (5 warmup + 10 timed).
+
+2a. per round trip. ctx-sw = times a benchmark task was switched out; wake->run = median time from
+    sched_waking to the task actually running (scheduler + idle-exit latency); cross-cpu = the waker
+    ran on a different CPU than the task it woke; IPIs / idle-ent = interrupts sent to and idle
+    entries on CPUs 0-1. *us/RTT is wall time UNDER TRACING, not the real latency.
+    size  ctx-sw  wakeups  wake->run us  cross-cpu  reads  writes   IPIs  idle-ent  pg-alloc  lock-cont  us/RTT*
+  ------  ------  -------  ------------  ---------  -----  ------  -----  --------  --------  ---------  -------
+       4    2.07     1.93           2.1       100%    2.1     2.0   1.87      2.00       0.6       0.00       16
+      16    2.00     2.00           2.1       100%    2.0     2.0   2.00      2.00       0.0       0.00        7
+      64    2.00     2.00           2.0       100%    2.0     2.0   2.00      2.00       0.0       0.00        6
+     256    2.00     2.00           1.9       100%    2.0     2.0   2.00      2.00       0.0       0.00        6
+    1024    2.00     2.00           1.9       100%    2.0     2.0   2.00      2.00       0.0       0.00        6
+    4096    2.00     2.00           1.9       100%    2.0     2.0   2.00      1.93       0.1       0.00        8
+   16384    2.00     2.00           1.9       100%    2.0     2.0   1.93      2.00       4.5       0.00       13
+   65536    2.00     2.00           2.0       100%    2.0     2.0   1.93      2.00      29.6       0.00       34
+  262144   14.00    14.00           1.9       100%    8.0     2.0  15.07     10.93     118.4       0.00      170
+  524288   30.07    30.07           2.0       100%   15.9     2.0  30.53     29.33     233.3       0.00      345
+
+2b. time INSIDE the read()/write() syscalls on the pipes (a read includes waiting for the other side)
+    size  read med us  write med us  read max us  write max us
+  ------  -----------  ------------  -----------  ------------
+       4          5.3           0.8          109             5
+      16          5.2           0.8            6             1
+      64          4.9           0.7            6             1
+     256          4.9           0.7            5             1
+    1024          5.0           0.8            5             1
+    4096          5.9           0.8           10             2
+   16384          9.9           1.6           19             3
+   65536         26.1           4.8           57             9
+  262144         20.0          65.7          153           188
+  524288         17.5         128.6          501           769
+
+2c. idle states entered on CPUs 0-1 (C0 = polling, higher = deeper sleep)
+    size  entries/RTT  states entered (count)  median stay us (under tracing)
+  ------  -----------  ----------------------  ------------------------------
+       4         2.00       C0:2, C1:24, C2:4         C0=2.2, C1=2.8, C2=11.7
+      16         2.00                   C1:30                          C1=2.8
+      64         2.00                   C1:30                          C1=2.7
+     256         2.00                   C1:30                          C1=2.7
+    1024         2.00                   C1:30                          C1=2.8
+    4096         1.93                   C1:29                          C1=3.2
+   16384         2.00                   C1:30                          C1=5.5
+   65536         2.00                   C1:30                         C1=15.3
+  262144        10.93           C0:51, C1:113                  C0=1.3, C1=6.5
+  524288        29.33                  C1:440                         C1=10.7
+
+   completeness: no throttled or lost samples
+
+====================================================================================================
+3. WHERE THE CPU CYCLES GO (perf record cycles + call graphs, one profile per message size)
+   The benchmark's processes only; no printing in the loop (-q). Categories are a heuristic,
+   NAME-based grouping of kernel symbols; kernel symbols only resolve when this runs as root.
+
+3a. cycles per round trip by component (both tasks; kcyc = thousands of cycles)
+                          component  4 B %  4 B kcyc  64 KB %  64 KB kcyc  512 KB %  512 KB kcyc
+  ---------------------------------  -----  --------  -------  ----------  --------  -----------
+        copying data (to/from pipe)   7.1%      0.60    67.6%       65.13     66.2%       544.00
+              pipe read/write logic  10.2%      0.86     6.9%        6.65      6.6%        54.33
+            page alloc/free + memcg   0.2%      0.02    12.7%       12.21     10.8%        89.08
+                            locking  16.8%      1.42     3.5%        3.34      5.5%        45.00
+            scheduler, wakeup, idle  27.5%      2.32     2.1%        2.02      3.6%        29.31
+           interrupts, IPIs, timers   9.1%      0.76     2.2%        2.12      2.7%        22.13
+  syscall entry/exit, VFS, security  13.0%      1.09     1.6%        1.53      0.9%         7.76
+                       other kernel  11.0%      0.93     2.8%        2.73      3.3%        27.08
+      user space (benchmark + libc)   5.0%      0.43     0.7%        0.68      0.4%         3.22
+
+3b. CPU work against the measured round trip
+                    component  4 B %  4 B kcyc  64 KB %  64 KB kcyc  512 KB %  512 KB kcyc
+  ---------------------------  -----  --------  -------  ----------  --------  -----------
+  CPU work, total (perf stat)    8.4               96.4                 821.9             
+              = us at 4.0 GHz   2.11              24.10                205.47             
+    untraced RTT, median (us)   3.06              26.15                237.30             
+         => not on a CPU (us)   0.95               2.05                 31.82             
+       untraced RTT, min (us)   1.96              25.26                227.83             
+   untraced RTT: over 5 file(s) results/latency_run*.csv (newest modified 2026-09-21 12:43).
+   'not on a CPU' = time when NEITHER task was running (idle exits, IPI flight, wakeup latency),
+   median RTT minus CPU work. Meaningful when the two tasks alternate. For messages above the
+   64 KB pipe buffer both cores work at once, so CPU work can exceed the round trip and the value
+   goes negative: overlap, not an error. At 4 B the two tasks also overlap a little (the parent
+   is still returning from write() while the child wakes), so it understates the idle gap.
+
+3c. top functions, 4 B messages (% of cycles)
+      9.13%  [k] anon_pipe_read   <pipe read/write logic>
+      8.52%  [k] cpupri_set   <scheduler, wakeup, idle>
+      6.31%  [k] mutex_lock   <locking>
+      5.09%  [k] mutex_unlock   <locking>
+      4.89%  [k] _copy_to_iter   <copying data (to/from pipe)>
+      4.50%  [k] entry_SYSCALL_64   <syscall entry/exit, VFS, security>
+      3.74%  [k] native_write_msr   <interrupts, IPIs, timers>
+      3.63%  [k] __wake_up_common   <scheduler, wakeup, idle>
+    largest symbols left in 'other kernel' (11%): psi_group_change 2.0%, switch_fpu_return 0.8%, prepare_to_wait_event 0.8%, perf_ctx_enable 0.6%, psi_task_switch 0.6%, record_times 0.5%
+
+3c. top functions, 64 KB messages (% of cycles)
+     56.88%  [k] _copy_to_iter   <copying data (to/from pipe)>
+      9.97%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      4.83%  [k] anon_pipe_put_page   <pipe read/write logic>
+      3.62%  [k] page_counter_uncharge   <page alloc/free + memcg>
+      2.56%  [k] kernel_init_pages   <page alloc/free + memcg>
+      2.19%  [k] _raw_spin_trylock   <locking>
+      1.11%  [k] anon_pipe_read   <pipe read/write logic>
+      0.94%  [k] anon_pipe_write   <pipe read/write logic>
+
+3c. top functions, 512 KB messages (% of cycles)
+     54.10%  [k] _copy_to_iter   <copying data (to/from pipe)>
+     11.25%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      4.21%  [k] anon_pipe_put_page   <pipe read/write logic>
+      3.88%  [k] _raw_spin_trylock   <locking>
+      2.89%  [k] page_counter_uncharge   <page alloc/free + memcg>
+      1.78%  [k] kernel_init_pages   <page alloc/free + memcg>
+      1.32%  [k] anon_pipe_write   <pipe read/write logic>
+      1.05%  [k] anon_pipe_read   <pipe read/write logic>
+
+====================================================================================================
+4. SYSCALLS (strace - every call; strace itself slows the run ~5x, so use COUNTS, not times)
+   parent strace_latency.1204625: 743 syscalls; top: read x323, write x160, mmap x37, close x31, openat x28
+   child  strace_latency.1204626: 461 syscalls; top: read x300, write x150, close x4, set_robust_list x1, rt_sigprocmask x1
+
+4a. pipe syscalls per round trip. A write is 1 call (it blocks until the data fits); a read returns
+    at most what the 64 KB pipe holds, so reads per message = ceil(size / 65536)
+    size  parent wr  parent rd  child wr  child rd
+  ------  ---------  ---------  --------  --------
+       4       1.07       1.00      1.00      1.07
+      16       1.07       1.00      1.00      1.00
+      64       1.07       1.00      1.00      1.00
+     256       1.07       1.00      1.00      1.00
+    1024       1.07       1.00      1.00      1.00
+    4096       1.07       1.00      1.00      1.00
+   16384       1.07       1.00      1.00      1.00
+   65536       1.07       1.00      1.00      1.00
+  262144       1.07       4.00      1.00      4.00
+  524288       1.07       8.00      1.00      7.93
+
+====================================================================================================
+5. KERNEL CALL GRAPH under ksys_read / ksys_write (ftrace function_graph, the benchmark only)
+   entries by task: {'latency': 649642};  'events dropped' notices: 0
+   Durations are inflated by function_graph's own overhead (every function entry/exit is hooked):
+   compare functions with each other, do not read the microseconds as real costs.
+
+5a. top-level calls (pipe read / write)
+        call  count  median us   max us  total ms
+  ----------  -----  ---------  -------  --------
+   ksys_read    601     113.15    590.0     65.71
+  ksys_write    310       5.89  1,664.9     45.87
+
+5b. where the time goes, by SELF time (time in the function itself, not its callees)
+                     function  calls  self ms  % of read+write time
+  ---------------------------  -----  -------  --------------------
+                     schedule    450    26.86                 24.1%
+          mutex_spin_on_owner    448    24.30                 21.8%
+               anon_pipe_read    600     5.00                  4.5%
+      obj_cgroup_charge_pages   5524     3.36                  3.0%
+               uncharge_batch   5520     3.27                  2.9%
+              __rcu_read_lock  48530     2.86                  2.6%
+            __rcu_read_unlock  48530     2.83                  2.5%
+            __mod_memcg_state  11044     1.99                  1.8%
+        page_counter_uncharge   5521     1.75                  1.6%
+  __alloc_frozen_pages_noprof   5780     1.67                  1.5%
+               uncharge_folio   5520     1.62                  1.5%
+          __free_frozen_pages   5520     1.55                  1.4%
+     __memcg_kmem_charge_page   5524     1.32                  1.2%
+    propagate_protected_usage  22455     1.30                  1.2%
+
+====================================================================================================
+6. WHERE THE WALL-CLOCK TIME GOES: CPU work vs time when neither task was running
+   Median untraced round trip (results/latency_run*.csv, 5 file(s)) against the CPU work perf stat
+   counted per round trip at 4.0 GHz. perf stat counts the AVERAGE round trip, hence the median.
+
+6a. per message size
+    size  median RTT us  CPU work us  both idle us  idle %  wakeups/RTT  idle per wakeup us
+  ------  -------------  -----------  ------------  ------  -----------  ------------------
+     4 B           3.06         2.11          0.95     31%          1.9                0.49
+    16 B           3.11         2.12          0.99     32%          2.0                0.49
+    64 B           3.06         2.59          0.47     15%          2.0                0.23
+   256 B           3.07         2.37          0.70     23%          2.0                0.35
+    1 KB           3.32         2.45          0.87     26%          2.0                0.44
+    4 KB           5.41         3.43          1.98     37%          2.0                0.99
+   16 KB           9.45         7.45          2.01     21%          2.0                1.00
+   64 KB          26.15        24.10          2.05      8%          2.0                1.02
+  256 KB         116.79       102.47         14.32     12%         14.0                1.02
+  512 KB         237.30       205.47         31.82     13%         30.1                1.06
+   'both idle' = median RTT - CPU work: idle exits, IPI flight, wakeup latency. Meaningful when the two
+   tasks alternate; above the 64 KB pipe buffer both cores work at once. At 4 B a little overlap
+   (the parent still returning from write() while the child wakes) makes it understate the gap.
+   wakeups/RTT come from the tracepoint capture; 'n/a' if that capture is missing.

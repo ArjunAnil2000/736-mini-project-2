@@ -1,0 +1,6 @@
+# started on Mon Sep 21 12:43:27 2026
+
+<not counted>,,cpu_atom/dTLB-load-misses/,0,0.00,,
+22260,,cpu_core/dTLB-load-misses/,688504451,100.00,,
+<not counted>,,cpu_atom/iTLB-load-misses/,0,0.00,,
+126910,,cpu_core/iTLB-load-misses/,688504451,100.00,,

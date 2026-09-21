@@ -1,0 +1,7 @@
+# started on Mon Sep 21 12:43:28 2026
+
+237375208,,cpu_core/slots/,11834606,100.00,,
+34024247,,cpu_core/topdown-retiring/,11834606,100.00,,
+85777609,,cpu_core/topdown-fe-bound/,11834606,100.00,,
+101819633,,cpu_core/topdown-be-bound/,11834606,100.00,,
+16545192,,cpu_core/topdown-bad-spec/,11834606,100.00,,
