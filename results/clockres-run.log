@@ -1,0 +1,43 @@
+== pinning CPU 0 ==
+CPU 0 pinned (prior state saved to /home/aanil/Desktop/courses/736-adv-os/projects/p2/scripts/.freq_state/cpu0.env):
+  governor:       performance
+  min_freq:       4000000 kHz
+  max_freq:       4000000 kHz
+  current freq:   3233290 kHz
+run 'sudo ./scripts/unpin_freq.sh 0' to restore prior settings
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+== running clockres on CPU 0 ==
+
+=== Timer resolution (smallest observed non-zero delta, 2000 trials) ===
+clock_gettime(CLOCK_MONOTONIC):             11.0 ns
+clock_gettime(CLOCK_MONOTONIC_COARSE):      999987.0 ns
+clock_gettime(CLOCK_PROCESS_CPUTIME_ID):    118.0 ns
+gettimeofday:                               1000.0 ns
+rdtsc_cycles:                               24 cycles
+calibrated TSC frequency:                   3.302 GHz
+rdtsc resolution (calibrated):              7.3 ns
+
+=== Accuracy check: sleep(2) ===
+clock_gettime(CLOCK_MONOTONIC) measured:          2000046893 ns
+clock_gettime(CLOCK_MONOTONIC_COARSE) measured:   2000975315 ns
+gettimeofday measured:                            2000045000 ns
+clock_gettime(CLOCK_PROCESS_CPUTIME_ID) measured: 16569 ns (expected ~0: process was blocked in sleep(), not consuming CPU)
+rdtsc (calibrated) measured:                      2000036444.0 ns
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+== unpinning CPU 0 ==
+CPU 0 pinned state before restore:
+  governor:     performance
+  min_freq:     4000000 kHz
+  max_freq:     4000000 kHz
+  current freq: 1122542 kHz
+CPU 0 restored:
+  governor: powersave
+  min_freq: 400000 kHz
+  max_freq: 4800000 kHz
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
