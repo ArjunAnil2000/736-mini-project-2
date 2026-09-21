@@ -111,8 +111,10 @@ $ getconf PAGE_SIZE
 
 ```
 $ getconf PIPE_BUF /
-TODO: RUN THIS.
+4096
 ```
+(`PIPE_BUF` is the largest write POSIX guarantees is atomic, not the pipe's capacity; the capacity is the
+65536 bytes shown below.)
 
 ```
 $ cat /proc/sys/fs/pipe-max-size
