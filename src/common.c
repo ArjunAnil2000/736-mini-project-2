@@ -12,6 +12,19 @@
 
 const size_t SIZES[NUM_SIZES] = {4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 524288};
 
+/* Set once the user agrees to run without SCHED_FIFO; survives fork(), so the child won't ask. */
+static int rt_declined;
+
+/* Prompts on stderr (stdout carries the CSV). EOF or a non-tty stdin counts as "no". */
+static int
+confirm_continue(void)
+{
+    char line[16];
+    fprintf(stderr, "Continue without SCHED_FIFO? Results will be noisier. [y/N] ");
+    if (!fgets(line, sizeof(line), stdin)) return 0;
+    return line[0] == 'y' || line[0] == 'Y';
+}
+
 void
 pin_to_cpu(int cpu)
 {
@@ -22,10 +35,13 @@ pin_to_cpu(int cpu)
         perror("sched_setaffinity");
         exit(1);
     }
+    if (rt_declined) return;
+
     struct sched_param param = { 99 };
     if (sched_setscheduler(0, SCHED_FIFO, &param) != 0) {
         perror("sched_setscheduler");
-        exit(1);
+        if (!confirm_continue()) exit(1);
+        rt_declined = 1;
     }
 }
 
