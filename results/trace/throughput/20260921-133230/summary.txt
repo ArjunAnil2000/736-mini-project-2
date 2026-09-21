@@ -1,0 +1,240 @@
+THROUGHPUT TRACE SUMMARY  throughput/20260921-133230   (kernel 7.1.8-200.fc44.x86_64, CPUs pinned to 4000 MHz)
+
+====================================================================================================
+1. COUNTERS (perf stat) - per chunk and per MiB moved, the benchmark's parent + child together
+   Each run moved 256 MiB per size (fewer bytes for tiny chunks: capped at 1000000 chunks); startup cost = median of 3 baseline runs,
+   subtracted; each counter group ran alone (not multiplexed); no CSV printing (-q).
+   chunk = one write() by the parent + one read() by the child. MiB = 2^20 bytes.
+
+1a. scheduling and CPU work (kcycles = thousands of cycles)
+   chunk  chunks/run  ctx-sw/chunk  migr/chunk  pg-fault/MiB  kcycles/chunk  kinstr/chunk   IPC  cycles/KiB
+  ------  ----------  ------------  ----------  ------------  -------------  ------------  ----  ----------
+     4 B     1000000         0.000      0.0000           n/a           1.74          2.26  1.30     446,597
+    16 B     1000000         0.000      0.0000           n/a           2.26          2.32  1.03     144,605
+    64 B     1000000         0.000      0.0000           n/a           2.76          2.38  0.86      44,116
+   256 B     1000000         0.000      0.0000           n/a           2.93          2.42  0.82      11,736
+    1 KB      262144         0.001      0.0000           n/a           4.06          2.60  0.64       4,057
+    4 KB       65536         0.000      0.0000           n/a           7.25          3.15  0.43       1,814
+   16 KB       16384         0.001      0.0000          0.02          27.86         12.36  0.44       1,741
+   64 KB        4096         2.000      0.0000          0.11          63.41         46.47  0.73         991
+  256 KB        1024         7.997      0.0000          0.46         277.21        183.40  0.66       1,083
+  512 KB         512        15.994      0.0000          0.97         571.62        368.29  0.64       1,116
+
+1b. memory system, per MiB moved. xsnp-hitm/fwd = loads served from the OTHER core's cache, i.e.
+    data moving between the parent's core and the child's core
+   chunk  cache-ref  cache-miss  L1d-miss  L2-miss  xsnp-hitm  xsnp-fwd  dTLB-miss  iTLB-miss
+  ------  ---------  ----------  --------  -------  ---------  --------  ---------  ---------
+     4 B  2,045,039       4,038   842,304  153,323    133,816        42         45    535,789
+    16 B    696,014       1,302   317,670  128,692    112,707        21          8    133,860
+    64 B    217,387         326    95,250   81,505     71,217         8         17     33,572
+   256 B     79,253         259    31,831   23,762     20,289         2          3      8,372
+    1 KB     49,681         287    22,738    8,696      6,915         1          9      2,094
+    4 KB     37,887         102    18,359    2,651      2,320       n/a          3        526
+   16 KB     41,356      10,463    18,072    1,523      1,065        15        287        140
+   64 KB     44,155       7,967    21,329    1,529        796        44        379         56
+  256 KB     44,474      14,518    35,627    1,551        789        43        513         44
+  512 KB     46,263      18,558    35,824    1,566        786        50        536         40
+
+1c. top-down: where the CPU's pipeline slots went (P-core)
+   chunk  retiring  front-end  back-end  bad-spec
+  ------  --------  ---------  --------  --------
+     4 B     16.9%       9.1%     71.9%      1.9%
+    16 B     18.4%       9.1%     70.9%      1.7%
+    64 B     13.1%       8.4%     76.2%      2.3%
+   256 B     12.2%      10.3%     75.0%      2.3%
+    1 KB     10.2%       7.1%     82.0%      1.1%
+    4 KB      7.0%       3.7%     89.2%      0.5%
+   16 KB      6.8%       3.1%     90.0%      0.3%
+   64 KB     10.3%      21.2%     66.5%      4.6%
+  256 KB     10.7%      22.3%     66.4%      4.4%
+  512 KB     11.1%      22.3%     62.7%      4.7%
+
+====================================================================================================
+2. SCHEDULING, SYSCALLS, IDLE, IPIs (perf record tracepoints - EVERY occurrence, benchmark tasks only)
+   184172 events on CPUs 0-1; benchmark tasks (comm 'throughput'): tids [1231913, 1231915]; 128 KiB per size (chunks = max(1, bytes/size)).
+
+2a. per chunk unless marked. ctx-sw = times a benchmark task was switched out; wake->run = median time
+    from sched_waking to the task actually running; cross-cpu = the waker ran on a different CPU than
+    the task it woke; child rd = read() calls per chunk (above 1 means the reader found the pipe short
+    and had to read again); IPIs / idle-ent = interrupts sent to and idle entries on CPUs 0-1.
+    *MiB/s is throughput UNDER TRACING (and over a tiny transfer), not the real throughput.
+   chunk  chunks  ctx-sw  wakeups  wake->run us  cross-cpu  child rd  parent wr    IPIs  idle-ent  pg-alloc/MiB   lock/MiB  MiB/s*
+  ------  ------  ------  -------  ------------  ---------  --------  ---------  ------  --------  ------------  ---------  ------
+     4 B   32768   0.000    0.000          18.7       100%      1.00       1.00   0.000     0.000           184  20,248.00       7
+    16 B    8192   0.005    0.005           2.0       100%      1.00       1.00   0.004     0.002             0   7,832.00      33
+    64 B    2048   0.006    0.006           1.8       100%      1.00       1.00   0.005     0.004             0   2,072.00     134
+   256 B     512   0.010    0.010           1.5       100%      1.00       1.00   0.006     0.004             0     568.00     503
+    1 KB     128   0.016    0.016           1.7       100%      1.00       1.00   0.008     0.008             0     520.00   1,477
+    4 KB      32   0.062    0.062           2.4       100%      1.00       1.00   0.062     0.062            16     456.00   2,505
+   16 KB       8   0.250    0.250           5.7       100%      1.00       1.00   0.250     0.250           168     104.00   2,283
+   64 KB       2   2.000    2.000           2.4       100%      1.00       1.00   2.500     2.500           320       0.00     987
+  256 KB       1   8.000    8.000           2.0       100%      4.00       1.00   8.000     8.000           416       0.00   1,442
+  512 KB       1  17.000   17.000           2.0       100%      7.00       1.00  18.000    18.000           368       0.00   1,301
+
+2b. time INSIDE the read()/write() syscalls on the pipes (a read includes waiting for the parent, a
+    write includes waiting for the child to drain a full pipe)
+   chunk  read med us  write med us  read max us  write max us
+  ------  -----------  ------------  -----------  ------------
+     4 B          0.2           0.2        5,042           503
+    16 B          0.2           0.2           49            49
+    64 B          0.2           0.2            5             4
+   256 B          0.3           0.2            5             1
+    1 KB          0.4           0.3            5             2
+    4 KB          0.9           0.9            7             5
+   16 KB          3.7           3.6           17             8
+   64 KB         59.6          12.6           61            52
+  256 KB         45.6          68.9           47           137
+  512 KB         39.4         122.9           47           245
+
+2c. idle states entered on CPUs 0-1 (C0 = polling, higher = deeper sleep)
+   chunk  idle entries/chunk   states entered (count)  median stay us (under tracing)
+  ------  ------------------  -----------------------  ------------------------------
+     4 B               0.000               C2:2, C3:9            C2=1,672.1, C3=805.2
+    16 B               0.002  C0:13, C1:3, C2:2, C3:2  C0=0.9, C1=0.7, C2=2.3, C3=2.1
+    64 B               0.004                     C0:8                          C0=0.9
+   256 B               0.004                     C0:2                          C0=0.9
+    1 KB               0.008                     C1:1                               -
+    4 KB               0.062               C1:1, C3:1                          C3=1.2
+   16 KB               0.250               C1:1, C3:1                          C3=5.9
+   64 KB               2.500         C1:2, C2:1, C3:2       C1=11.4, C2=52.6, C3=16.9
+  256 KB               8.000                     C1:8                         C1=18.8
+  512 KB              18.000                    C1:18                         C1=13.5
+
+   completeness: no throttled or lost samples
+
+====================================================================================================
+3. WHERE THE CPU CYCLES GO (perf record cycles + call graphs, one profile per chunk size)
+   The benchmark's processes only; no CSV printing (-q). Categories are a heuristic, NAME-based grouping
+   of kernel symbols; kernel symbols only resolve when this runs as root.
+
+3a. cycles per KiB moved, by component (both tasks; cyc/KiB = cycles per 1024 bytes of data)
+                          component  4 B %  4 B cyc/KiB  4 KB %  4 KB cyc/KiB  64 KB %  64 KB cyc/KiB  512 KB %  512 KB cyc/KiB
+  ---------------------------------  -----  -----------  ------  ------------  -------  -------------  --------  --------------
+        copying data (to/from pipe)   9.9%     44,342.4   28.2%         511.3    58.2%          576.9     62.2%           694.5
+              pipe read/write logic   3.2%     14,393.4    4.4%          80.6     5.1%           50.1      5.7%            63.4
+            page alloc/free + memcg   0.0%        134.1    0.8%          15.1    12.5%          123.7     14.7%           163.8
+                            locking  42.7%    190,779.4   56.3%       1,020.7    12.0%          119.3      4.6%            51.2
+            scheduler, wakeup, idle   0.0%         89.4    0.0%           0.7     2.7%           27.1      2.8%            31.7
+           interrupts, IPIs, timers   0.3%      1,475.1    0.1%           1.1     2.0%           19.4      2.5%            27.4
+  syscall entry/exit, VFS, security  30.0%    133,831.7    6.6%         120.2     1.1%           10.4      1.2%            13.4
+                       other kernel   3.5%     15,600.3    1.7%          30.0     5.7%           56.8      5.8%            65.1
+      user space (benchmark + libc)  10.3%     45,951.6    1.9%          34.1     0.7%            6.9      0.5%             5.9
+         TOTAL CPU work (perf stat)           446,597.3               1,813.7                   990.8                   1,116.5
+
+3b. top functions, 4 B chunks (% of cycles)
+     19.02%  [k] mutex_lock   <locking>
+     13.70%  [k] entry_SYSCALL_64   <syscall entry/exit, VFS, security>
+     10.24%  [k] mutex_unlock   <locking>
+      8.46%  [k] __mutex_lock.constprop.0   <locking>
+      7.30%  [.] __internal_syscall_cancel   <user space (benchmark + libc)>
+      5.18%  [k] _copy_to_iter   <copying data (to/from pipe)>
+      4.22%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      4.19%  [k] avc_lookup   <syscall entry/exit, VFS, security>
+
+3b. top functions, 4 KB chunks (% of cycles)
+     32.28%  [k] mutex_spin_on_owner   <locking>
+     24.26%  [k] _copy_to_iter   <copying data (to/from pipe)>
+      9.83%  [k] mutex_unlock   <locking>
+      8.30%  [k] __mutex_lock.constprop.0   <locking>
+      3.71%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      3.48%  [k] mutex_lock   <locking>
+      2.73%  [k] entry_SYSCALL_64   <syscall entry/exit, VFS, security>
+      2.47%  [k] anon_pipe_read   <pipe read/write logic>
+
+3b. top functions, 64 KB chunks (% of cycles)
+     44.93%  [k] _copy_to_iter   <copying data (to/from pipe)>
+     12.89%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      6.95%  [k] mutex_spin_on_owner   <locking>
+      3.51%  [k] _raw_spin_trylock   <locking>
+      3.38%  [k] anon_pipe_put_page   <pipe read/write logic>
+      2.27%  [k] kernel_init_pages   <page alloc/free + memcg>
+      2.18%  [k] __list_del_entry_valid_or_report   <other kernel>
+      2.00%  [k] page_counter_uncharge   <page alloc/free + memcg>
+    largest symbols left in 'other kernel' (6%): __list_del_entry_valid_or_report 2.2%, __next_zones_zonelist 0.5%, free_frozen_page_commit 0.4%, __list_add_valid_or_report 0.2%, psi_group_change 0.2%, switch_fpu_return 0.1%
+
+3b. top functions, 512 KB chunks (% of cycles)
+     44.41%  [k] _copy_to_iter   <copying data (to/from pipe)>
+     17.48%  [k] _copy_from_iter   <copying data (to/from pipe)>
+      4.01%  [k] anon_pipe_put_page   <pipe read/write logic>
+      3.35%  [k] kernel_init_pages   <page alloc/free + memcg>
+      3.23%  [k] _raw_spin_trylock   <locking>
+      2.28%  [k] __list_del_entry_valid_or_report   <other kernel>
+      2.23%  [k] __memcg_kmem_charge_page   <page alloc/free + memcg>
+      2.17%  [k] __free_one_page   <page alloc/free + memcg>
+    largest symbols left in 'other kernel' (6%): __list_del_entry_valid_or_report 2.3%, __next_zones_zonelist 0.4%, free_frozen_page_commit 0.3%, _find_first_bit 0.2%, switch_fpu_return 0.2%, psi_group_change 0.2%
+
+   chart: /home/aanil/Desktop/courses/736-adv-os/projects/p2/results/trace/throughput/20260921-133230/breakdown.png (+ .pdf)
+
+====================================================================================================
+4. SYSCALLS (strace - every call; strace itself slows the run a lot, so use COUNTS, not times)
+   parent strace_throughput.1232142: 3035 syscalls; top: write x2744, mmap x36, read x33, close x31, openat x28
+   child  strace_throughput.1232144: 2765 syscalls; top: read x2744, write x10, close x4, set_robust_list x1, rt_sigprocmask x1
+
+4a. pipe syscalls per chunk. The parent does one write() per chunk. The child asks for exactly one chunk
+    per read(); it needs more than one read() when the pipe holds less than a chunk (a chunk larger than
+    the 64 KB pipe buffer always does). avg bytes/read = bytes the child's reads returned on average.
+   chunk  chunks  parent wr/chunk  child rd/chunk  avg bytes/read
+  ------  ------  ---------------  --------------  --------------
+     4 B    2048            1.000           1.000               4
+    16 B     512            1.000           1.000              16
+    64 B     128            1.000           1.000              66
+   256 B      32            1.000           1.000             280
+    1 KB       8            1.000           1.000           1,408
+    4 KB       2            1.000           1.000          10,240
+   16 KB       1            1.000           1.000          65,536
+   64 KB       1            1.000           1.000          65,536
+  256 KB       1            1.000           4.000          65,536
+  512 KB       1            1.000           7.000          65,536
+
+====================================================================================================
+5. KERNEL CALL GRAPH under ksys_read / ksys_write (ftrace function_graph, the benchmark only)
+   entries by task: {'throughput': 145720};  'events dropped' notices: 0
+   Durations are inflated by function_graph's own overhead (every function entry/exit is hooked):
+   compare functions with each other, do not read the microseconds as real costs.
+
+5a. top-level calls (pipe read / write)
+        call  count  median us   max us  total ms
+  ----------  -----  ---------  -------  --------
+   ksys_read   1390       2.09    419.8      9.05
+  ksys_write   1389       2.02  1,740.1      6.13
+
+5b. where the time goes, by SELF time (time in the function itself, not its callees)
+                  function  calls  self ms  % of read+write time
+  ------------------------  -----  -------  --------------------
+                  schedule     50     3.55                 23.4%
+            anon_pipe_read   1389     0.83                  5.4%
+              avc_has_perm   2778     0.67                  4.4%
+       mutex_spin_on_owner     15     0.57                  3.8%
+           __file_has_perm   2778     0.51                  3.4%
+  security_file_permission   2779     0.50                  3.3%
+           anon_pipe_write   1389     0.47                  3.1%
+           __rcu_read_lock   5831     0.34                  2.3%
+         __rcu_read_unlock   5831     0.34                  2.2%
+            rw_verify_area   2779     0.34                  2.2%
+   selinux_file_permission   2779     0.31                  2.0%
+            inode_has_perm   2778     0.30                  2.0%
+                mutex_lock   2863     0.29                  1.9%
+                  vfs_read   1390     0.26                  1.7%
+
+====================================================================================================
+6. WHERE THE WALL-CLOCK TIME GOES: measured throughput vs CPU work
+   Measured, un-traced throughput from results/throughput_run*.csv (5 file(s)) against the CPU
+   work perf stat counted per chunk at 4.0 GHz. Throughput is MiB/s (2^20 bytes per second).
+   perf stat counts the AVERAGE chunk, hence the wall time per chunk uses the MEDIAN throughput.
+
+6a. per chunk size
+   chunk  best MiB/s  median MiB/s  wall ns/chunk  CPU ns/chunk  cores busy  cycles/KiB
+  ------  ----------  ------------  -------------  ------------  ----------  ----------
+     4 B        21.0          13.3            287           436        1.52     446,597
+    16 B        67.7          62.0            246           565        2.30     144,605
+    64 B       193.8         180.3            339           689        2.04      44,116
+   256 B       690.8         648.1            377           733        1.95      11,736
+    1 KB     1,981.4       1,889.8            517         1,014        1.96       4,057
+    4 KB     4,500.5       4,228.2            924         1,814        1.96       1,814
+   16 KB     4,742.2       4,319.1          3,618         6,964        1.93       1,741
+   64 KB     3,577.5       3,380.0         18,491        15,853        0.86         991
+  256 KB     3,634.2       3,210.6         77,866        69,302        0.89       1,083
+  512 KB     3,555.7       3,170.4        157,707       142,906        0.91       1,116
+   cores busy = CPU ns per chunk (parent + child together) / wall ns per chunk. The parent and child run at the
+   same time as a pipeline, so 2.0 would mean both cores were busy the whole time, about 1.0 means one core's
+   worth of work, and less means the tasks spent much of the time blocked or idle.

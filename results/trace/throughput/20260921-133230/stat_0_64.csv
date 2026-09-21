@@ -1,0 +1,12 @@
+# started on Mon Sep 21 13:32:31 2026
+
+56,,context-switches,698205765,100.00,,
+2,,cpu-migrations,698205765,100.00,,
+238,,page-faults,698205765,100.00,,
+698.21,msec,task-clock,698205765,100.00,,
+<not counted>,,cpu_atom/cycles/,0,0.00,,
+2762050370,,cpu_core/cycles/,698205765,100.00,,
+<not counted>,,cpu_atom/instructions/,0,0.00,,
+2379804208,,cpu_core/instructions/,698205765,100.00,,
+<not counted>,,cpu_atom/branch-misses/,0,0.00,,
+1839792,,cpu_core/branch-misses/,698205765,100.00,,

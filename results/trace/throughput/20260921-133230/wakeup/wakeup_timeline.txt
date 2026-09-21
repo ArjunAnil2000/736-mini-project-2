@@ -1,0 +1,67 @@
+WAKEUP TIMELINE  (every wakeup of one benchmark task by the other)
+  source: dedicated wakeup captures, 10 files (perf_wakeup_<size>.data): scheduler, IPI and idle events only, no syscall events
+  12506 complete hand-offs analysed, 5 skipped (an end of the wakeup was not found).
+  The capture slows the benchmark several times over: read the proportions between phases,
+  not the absolute nanoseconds. Each phase is the median over the hand-offs that have both ends.
+
+
+A. median time per phase, in ns (per size)
+    size  hand-offs   IPI  idle exit  waking -> IPI sent  IPI -> CPU leaves idle  idle exit -> wakeup handled  wakeup -> context switch  waking->running
+  ------  ---------  ----  ---------  ------------------  ----------------------  ---------------------------  ------------------------  ---------------
+     4 B         20   85%        45%                 499                   3,591                        2,508                     1,154            4,139
+    16 B        248   86%        25%                 287                   1,132                          649                       495            2,255
+    64 B         30  100%         3%               1,306                   3,239                        2,936                       936            3,187
+   256 B          6  100%        67%                 724                   1,583                        1,539                     1,087            7,762
+    1 KB        230   90%        71%                 236                   1,215                          670                       501            2,552
+    4 KB          9   67%        44%                 353                   2,339                        1,381                       632            4,392
+   16 KB         24   62%        71%                 612                   1,118                          890                       504            2,810
+   64 KB       3748  100%        98%                 200                     741                          654                       402            2,015
+  256 KB       4096  100%       100%                 198                     762                          651                       412            2,057
+  512 KB       4095  100%       100%                 206                     755                          665                       408            2,058
+
+  'IPI' / 'idle exit' = share of hand-offs that had that checkpoint: without an IPI the target CPU was
+  not sleeping in idle. 'waking->running' = waking to the context switch.
+  (No syscall events in this capture, so there is no 'switch -> syscall returns' phase.)
+
+
+B. spread of the whole wakeup (waking -> running); sizes with fewer than 5 hand-offs are left out
+    size     n  p10 ns  median ns  p90 ns  max ns
+  ------  ----  ------  ---------  ------  ------
+     4 B    20   1,954      4,139  19,065  51,883
+    16 B   248   1,537      2,255   3,776  56,960
+    64 B    30   2,110      3,187   8,160  25,771
+   256 B     6   2,577      7,762  58,003  58,003
+    1 KB   230   1,570      2,552   3,788   8,480
+    4 KB     9     891      4,392  42,419  42,419
+   16 KB    24   1,343      2,810   5,637   8,173
+   64 KB  3748   1,937      2,015   2,215   9,121
+  256 KB  4096   1,943      2,057   2,361  15,066
+  512 KB  4095   1,960      2,058   2,280   8,352
+
+  !! fewer than 30 hand-offs, treat with care: 4 B, 256 B, 4 KB, 16 KB
+
+C. one representative hand-off per profiled size (the one closest to that size's median), ns from 'waking'
+
+  4 B: waker on CPU 1, woken task on CPU 0
+            0 ns  waking
+        3,732 ns  wakeup   (+3,732)
+        4,191 ns  switch   (+459)
+
+  4 KB: waker on CPU 1, woken task on CPU 0
+            0 ns  waking
+        4,063 ns  wakeup   (+4,063)
+        4,392 ns  switch   (+329)
+
+  64 KB: waker on CPU 1, woken task on CPU 0
+            0 ns  waking
+          206 ns  ipi   (+206)
+          941 ns  idle exit   (+735)
+        1,579 ns  wakeup   (+638)
+        2,015 ns  switch   (+436)
+
+  512 KB: waker on CPU 0, woken task on CPU 1
+            0 ns  waking
+          202 ns  ipi   (+202)
+          966 ns  idle exit   (+764)
+        1,621 ns  wakeup   (+655)
+        2,058 ns  switch   (+437)

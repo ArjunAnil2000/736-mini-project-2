@@ -2,7 +2,8 @@
 """ftrace_flamegraph.py <run_dir> [--out DIR]
 
 Flame graphs of the KERNEL call tree under read() and write(), from the ftrace function_graph capture
-(trace.dat) of a latency-trace.sh run.
+(trace.dat) of a latency-trace.sh or throughput-trace.sh run (the benchmark's process name is read from
+params.txt).
 
 How to read one: every box is a kernel function; the box above it is something it called; the WIDTH is
 its share of the time (own time plus everything it called). Left-to-right order is alphabetical and has
@@ -285,6 +286,8 @@ def main():
     out = a.out or f"{d}/flamegraphs"
     os.makedirs(out, exist_ok=True)
     p = ts.read_params(d)
+    if p.get("name"):
+        ts.BENCH_COMM = p["name"]  # "latency" or "throughput": the benchmark's process name in the capture
     sizes = {int(x) for x in p.get("sizes", "").split()}
     wanted = [int(x) for x in p.get("cycles_sizes", "4 65536 524288").split()]
     text = ts.run(["trace-cmd", "report", "-i", path])

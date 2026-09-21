@@ -1,0 +1,167 @@
+ftrace flame graph inputs: 83709 call trees from trace.dat; times are function_graph self time
+(inflated by tracing: compare rows with each other, not against real microseconds)
+
+all message sizes: widest boxes by self time (blocked time included)
+                  function  self us  % of time
+  ------------------------  -------  ---------
+                  schedule  3,548.0      23.3%
+            anon_pipe_read    825.4       5.4%
+              avc_has_perm    670.1       4.4%
+       mutex_spin_on_owner    571.8       3.8%
+           __file_has_perm    509.2       3.3%
+  security_file_permission    496.2       3.3%
+           anon_pipe_write    470.5       3.1%
+           __rcu_read_lock    344.1       2.3%
+         __rcu_read_unlock    340.7       2.2%
+            rw_verify_area    337.0       2.2%
+   selinux_file_permission    305.4       2.0%
+            inode_has_perm    297.6       2.0%
+
+all message sizes: widest boxes by self time, blocked (off-CPU) time removed
+                  function  self us  % of time
+  ------------------------  -------  ---------
+            anon_pipe_read    825.4       7.1%
+              avc_has_perm    670.1       5.7%
+       mutex_spin_on_owner    571.8       4.9%
+           __file_has_perm    509.2       4.4%
+  security_file_permission    496.2       4.2%
+           anon_pipe_write    470.5       4.0%
+           __rcu_read_lock    344.1       2.9%
+         __rcu_read_unlock    340.7       2.9%
+            rw_verify_area    337.0       2.9%
+   selinux_file_permission    305.4       2.6%
+            inode_has_perm    297.6       2.5%
+                mutex_lock    285.3       2.4%
+
+
+4 B messages: widest boxes by self time (blocked time included)
+                  function  self us  % of time
+  ------------------------  -------  ---------
+              avc_has_perm    493.9       9.6%
+           __file_has_perm    377.0       7.4%
+  security_file_permission    365.1       7.1%
+            anon_pipe_read    359.1       7.0%
+           anon_pipe_write    291.1       5.7%
+            rw_verify_area    249.3       4.9%
+   selinux_file_permission    223.9       4.4%
+            inode_has_perm    217.7       4.2%
+                mutex_lock    206.6       4.0%
+                  vfs_read    190.2       3.7%
+                 vfs_write    183.7       3.6%
+                ksys_write    181.0       3.5%
+
+4 B messages: widest boxes by self time, blocked (off-CPU) time removed
+                  function  self us  % of time
+  ------------------------  -------  ---------
+              avc_has_perm    493.9       9.8%
+           __file_has_perm    377.0       7.5%
+  security_file_permission    365.1       7.3%
+            anon_pipe_read    359.1       7.1%
+           anon_pipe_write    291.1       5.8%
+            rw_verify_area    249.3       5.0%
+   selinux_file_permission    223.9       4.5%
+            inode_has_perm    217.7       4.3%
+                mutex_lock    206.6       4.1%
+                  vfs_read    190.2       3.8%
+                 vfs_write    183.7       3.7%
+                ksys_write    181.0       3.6%
+
+
+4 KB messages: widest boxes by self time (blocked time included)
+                      function  self us  % of time
+  ----------------------------  -------  ---------
+                      schedule     24.9      19.3%
+                anon_pipe_read      9.6       7.4%
+  sched_balance_find_src_group      5.8       4.5%
+                      cpu_util      4.6       3.6%
+       arch_scale_cpu_capacity      2.9       2.2%
+             __rcu_read_unlock      2.5       1.9%
+               __rcu_read_lock      2.4       1.9%
+         __update_blocked_fair      2.3       1.8%
+             do_anonymous_page      1.9       1.5%
+              sched_balance_rq      1.5       1.1%
+      __update_load_avg_cfs_rq      1.4       1.1%
+        get_page_from_freelist      1.4       1.1%
+
+4 KB messages: widest boxes by self time, blocked (off-CPU) time removed
+                      function  self us  % of time
+  ----------------------------  -------  ---------
+                anon_pipe_read      9.6       9.2%
+  sched_balance_find_src_group      5.8       5.6%
+                      cpu_util      4.6       4.5%
+       arch_scale_cpu_capacity      2.9       2.8%
+             __rcu_read_unlock      2.5       2.4%
+               __rcu_read_lock      2.4       2.3%
+         __update_blocked_fair      2.3       2.2%
+             do_anonymous_page      1.9       1.8%
+              sched_balance_rq      1.5       1.4%
+      __update_load_avg_cfs_rq      1.4       1.4%
+        get_page_from_freelist      1.4       1.3%
+                pick_next_task      1.3       1.3%
+
+
+64 KB messages: widest boxes by self time (blocked time included)
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+                     schedule    281.2      58.0%
+               anon_pipe_read     10.6       2.2%
+               uncharge_batch      8.8       1.8%
+      obj_cgroup_charge_pages      8.6       1.8%
+              __rcu_read_lock      7.1       1.5%
+            __rcu_read_unlock      7.0       1.4%
+       get_page_from_freelist      6.5       1.3%
+            __mod_memcg_state      5.4       1.1%
+              anon_pipe_write      5.2       1.1%
+               uncharge_folio      4.5       0.9%
+        page_counter_uncharge      4.5       0.9%
+  __alloc_frozen_pages_noprof      4.3       0.9%
+
+64 KB messages: widest boxes by self time, blocked (off-CPU) time removed
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+               anon_pipe_read     10.6       5.2%
+               uncharge_batch      8.8       4.3%
+      obj_cgroup_charge_pages      8.6       4.2%
+              __rcu_read_lock      7.1       3.5%
+            __rcu_read_unlock      7.0       3.4%
+       get_page_from_freelist      6.5       3.2%
+            __mod_memcg_state      5.4       2.6%
+              anon_pipe_write      5.2       2.5%
+               uncharge_folio      4.5       2.2%
+        page_counter_uncharge      4.5       2.2%
+  __alloc_frozen_pages_noprof      4.3       2.1%
+          __free_frozen_pages      4.2       2.0%
+
+
+512 KB messages: widest boxes by self time (blocked time included)
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+                     schedule  1,435.6      35.9%
+          mutex_spin_on_owner    456.5      11.4%
+               anon_pipe_read    181.7       4.5%
+              __rcu_read_lock     97.0       2.4%
+            __rcu_read_unlock     96.7       2.4%
+       get_page_from_freelist     82.3       2.1%
+      obj_cgroup_charge_pages     68.8       1.7%
+               uncharge_batch     59.9       1.5%
+              anon_pipe_write     48.6       1.2%
+  __alloc_frozen_pages_noprof     48.3       1.2%
+             _raw_spin_unlock     43.1       1.1%
+            do_anonymous_page     40.4       1.0%
+
+512 KB messages: widest boxes by self time, blocked (off-CPU) time removed
+                     function  self us  % of time
+  ---------------------------  -------  ---------
+          mutex_spin_on_owner    456.5      17.8%
+               anon_pipe_read    181.7       7.1%
+              __rcu_read_lock     97.0       3.8%
+            __rcu_read_unlock     96.7       3.8%
+       get_page_from_freelist     82.3       3.2%
+      obj_cgroup_charge_pages     68.8       2.7%
+               uncharge_batch     59.9       2.3%
+              anon_pipe_write     48.6       1.9%
+  __alloc_frozen_pages_noprof     48.3       1.9%
+             _raw_spin_unlock     43.1       1.7%
+            do_anonymous_page     40.4       1.6%
+            __mod_memcg_state     38.1       1.5%
+

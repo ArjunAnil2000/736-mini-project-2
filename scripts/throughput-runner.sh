@@ -11,7 +11,12 @@
 #
 # CPU 0 (parent) and CPU 1 (child) are both P-cores, pinned to a constant 4000 MHz.
 #
-# Usage: sudo ./scripts/throughput-runner.sh [> results.csv]
+# Usage: sudo ./scripts/throughput-runner.sh > results/throughput_run1.csv
+# Name the outputs results/throughput_run<N>.csv (N = 1, 2, 3 ...): scripts/analyze_throughput.py takes
+# the best over all of them and shows how reproducible it is, and trace_summary_throughput.py compares
+# its traced CPU work against them. Repeat runs:
+#   for i in 1 2 3 4 5; do sudo make throughput.run > results/throughput_run$i.csv; done
+# The benchmark is started with no arguments: the default sizes, 64 MB per repeat, 3 repeats.
 
 set -euo pipefail
 

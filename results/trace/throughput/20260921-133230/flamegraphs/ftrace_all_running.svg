@@ -1,0 +1,579 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="564" viewBox="0 0 1300 564">
+<style>text{font-family:Verdana,DejaVu Sans,sans-serif} .f{font-size:11px} .f:hover{stroke:#000;stroke-width:1}</style>
+<rect width="1300" height="564" fill="#ffffff"/>
+<text x="650.0" y="20" text-anchor="middle" font-size="15">ftrace function_graph: kernel time under read() and write(), all message sizes, blocked (off-CPU) time removed</text>
+<text x="650.0" y="37" text-anchor="middle" font-size="11" fill="#555">width = share of function_graph self time (inflated by tracing: compare boxes, not microseconds)</text>
+<g class="f"><title>all: 11,691.1 us total, 0.0 us self (100.0%)</title><rect x="10.00" y="496" width="1280.00" height="17" fill="#e5e8e8" stroke="#ffffff" stroke-width="0.5"/><text x="13.00" y="508.5" fill="#000000">all</text></g>
+<g class="f"><title>ksys_read: 7,058.5 us total, 239.5 us self (60.4%)</title><rect x="10.00" y="478" width="772.80" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="13.00" y="490.5" fill="#000000">ksys_read</text></g>
+<g class="f"><title>fdget_pos: 90.0 us total, 90.0 us self (0.8%)</title><rect x="10.00" y="460" width="9.85" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>vfs_read: 6,729.0 us total, 256.9 us self (57.6%)</title><rect x="19.85" y="460" width="736.72" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="22.85" y="472.5" fill="#000000">vfs_read</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 8.2 us total, 0.1 us self (0.1%)</title><rect x="20.02" y="442" width="0.90" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 8.1 us total, 0.4 us self (0.1%)</title><rect x="20.02" y="424" width="0.89" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 7.3 us total, 0.4 us self (0.1%)</title><rect x="20.02" y="406" width="0.80" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 6.3 us total, 0.3 us self (0.1%)</title><rect x="20.08" y="388" width="0.69" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 5.8 us total, 0.5 us self (0.0%)</title><rect x="20.11" y="370" width="0.64" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 3.8 us total, 0.6 us self (0.0%)</title><rect x="20.25" y="352" width="0.42" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>anon_pipe_read: 4,719.6 us total, 825.4 us self (40.4%)</title><rect x="20.92" y="442" width="516.72" height="17" fill="#e67e22" stroke="#ffffff" stroke-width="0.5"/><text x="23.92" y="454.5" fill="#000000">anon_pipe_read</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 8.1 us total, 0.1 us self (0.1%)</title><rect x="20.92" y="424" width="0.89" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 8.0 us total, 0.4 us self (0.1%)</title><rect x="20.92" y="406" width="0.87" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 7.2 us total, 0.3 us self (0.1%)</title><rect x="20.92" y="388" width="0.78" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 6.5 us total, 0.3 us self (0.1%)</title><rect x="20.95" y="370" width="0.72" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 5.5 us total, 0.4 us self (0.0%)</title><rect x="21.04" y="352" width="0.60" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 3.7 us total, 0.7 us self (0.0%)</title><rect x="21.19" y="334" width="0.40" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_sync_key: 46.4 us total, 9.7 us self (0.4%)</title><rect x="21.81" y="424" width="5.09" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 31.6 us total, 3.8 us self (0.3%)</title><rect x="21.81" y="406" width="3.46" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>autoremove_wake_function: 27.8 us total, 1.1 us self (0.2%)</title><rect x="21.81" y="388" width="3.04" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 26.6 us total, 0.7 us self (0.2%)</title><rect x="21.81" y="370" width="2.92" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 25.9 us total, 3.2 us self (0.2%)</title><rect x="21.81" y="352" width="2.84" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 10.3 us total, 0.8 us self (0.1%)</title><rect x="22.29" y="334" width="1.13" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>enqueue_task: 6.1 us total, 0.5 us self (0.1%)</title><rect x="22.39" y="316" width="0.67" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_task_change: 3.8 us total, 1.1 us self (0.0%)</title><rect x="22.58" y="298" width="0.42" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_queue_wakelist: 6.0 us total, 2.3 us self (0.1%)</title><rect x="23.41" y="334" width="0.66" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__smp_call_single_queue: 3.2 us total, 1.3 us self (0.0%)</title><rect x="23.41" y="316" width="0.35" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 2.9 us total, 2.9 us self (0.0%)</title><rect x="25.26" y="406" width="0.32" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>anon_pipe_put_page: 834.0 us total, 45.6 us self (7.1%)</title><rect x="26.89" y="424" width="91.31" height="17" fill="#e67e22" stroke="#ffffff" stroke-width="0.5"/><text x="29.89" y="436.5" fill="#000000">anon_pipe_p…</text></g>
+<g class="f"><title>__folio_put: 788.4 us total, 31.2 us self (6.7%)</title><rect x="26.89" y="406" width="86.31" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="29.89" y="418.5" fill="#ffffff">__folio_put</text></g>
+<g class="f"><title>__mem_cgroup_uncharge: 644.2 us total, 32.1 us self (5.5%)</title><rect x="26.89" y="388" width="70.53" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="29.89" y="400.5" fill="#ffffff">__mem_cg…</text></g>
+<g class="f"><title>uncharge_batch: 472.4 us total, 112.0 us self (4.0%)</title><rect x="26.89" y="370" width="51.72" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="29.89" y="382.5" fill="#ffffff">uncha…</text></g>
+<g class="f"><title>__rcu_read_lock: 23.1 us total, 23.1 us self (0.2%)</title><rect x="26.89" y="352" width="2.53" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 21.4 us total, 21.4 us self (0.2%)</title><rect x="29.42" y="352" width="2.35" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 9.8 us total, 0.2 us self (0.1%)</title><rect x="31.77" y="352" width="1.08" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 9.7 us total, 0.4 us self (0.1%)</title><rect x="31.77" y="334" width="1.06" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 8.8 us total, 0.4 us self (0.1%)</title><rect x="31.77" y="316" width="0.97" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 8.2 us total, 0.3 us self (0.1%)</title><rect x="31.79" y="298" width="0.90" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 7.2 us total, 0.4 us self (0.1%)</title><rect x="31.88" y="280" width="0.79" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 4.7 us total, 0.7 us self (0.0%)</title><rect x="32.08" y="262" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.4 us total, 0.1 us self (0.1%)</title><rect x="32.84" y="352" width="0.81" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.3 us total, 0.6 us self (0.1%)</title><rect x="32.84" y="334" width="0.79" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 6.0 us total, 0.3 us self (0.1%)</title><rect x="32.84" y="316" width="0.66" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.6 us total, 0.4 us self (0.0%)</title><rect x="32.84" y="298" width="0.61" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 4.9 us total, 0.2 us self (0.0%)</title><rect x="32.84" y="280" width="0.54" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 4.8 us total, 0.1 us self (0.0%)</title><rect x="32.84" y="262" width="0.52" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 4.6 us total, 0.1 us self (0.0%)</title><rect x="32.84" y="244" width="0.51" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.5 us total, 0.5 us self (0.0%)</title><rect x="32.84" y="226" width="0.49" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 8.4 us total, 0.3 us self (0.1%)</title><rect x="33.67" y="352" width="0.92" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_softirqs: 7.4 us total, 0.5 us self (0.1%)</title><rect x="33.74" y="334" width="0.81" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_softirq: 5.5 us total, 0.2 us self (0.0%)</title><rect x="33.89" y="316" width="0.61" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_update_blocked_averages: 4.8 us total, 0.3 us self (0.0%)</title><rect x="33.95" y="298" width="0.53" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sched_balance_update_blocked_averages: 3.9 us total, 0.2 us self (0.0%)</title><rect x="33.95" y="280" width="0.42" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_blocked_fair: 3.1 us total, 1.7 us self (0.0%)</title><rect x="33.95" y="262" width="0.34" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_account_kmem: 11.2 us total, 11.2 us self (0.1%)</title><rect x="34.60" y="352" width="1.23" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_oom_recover: 11.4 us total, 11.4 us self (0.1%)</title><rect x="35.83" y="352" width="1.25" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_uncharge_batch: 59.0 us total, 34.2 us self (0.5%)</title><rect x="37.08" y="352" width="6.46" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>count_memcg_events: 11.4 us total, 11.4 us self (0.1%)</title><rect x="37.08" y="334" width="1.25" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_check_events: 13.4 us total, 12.4 us self (0.1%)</title><rect x="38.33" y="334" width="1.47" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg_uncharge: 127.4 us total, 22.4 us self (1.1%)</title><rect x="43.54" y="352" width="13.95" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>page_counter_uncharge: 105.0 us total, 60.3 us self (0.9%)</title><rect x="43.54" y="334" width="11.50" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>propagate_protected_usage: 44.8 us total, 44.8 us self (0.4%)</title><rect x="43.54" y="316" width="4.90" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_memcg_state: 81.0 us total, 19.6 us self (0.7%)</title><rect x="57.49" y="352" width="8.86" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mod_memcg_state: 57.2 us total, 34.4 us self (0.5%)</title><rect x="57.49" y="334" width="6.26" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 11.4 us total, 11.4 us self (0.1%)</title><rect x="57.49" y="316" width="1.25" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg_state_val_in_pages: 11.3 us total, 11.3 us self (0.1%)</title><rect x="58.74" y="316" width="1.24" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.2 us total, 0.1 us self (0.0%)</title><rect x="63.74" y="334" width="0.46" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.1 us total, 0.6 us self (0.0%)</title><rect x="63.74" y="316" width="0.45" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.0 us total, 0.3 us self (0.0%)</title><rect x="63.74" y="298" width="0.33" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>uncharge_folio: 139.6 us total, 56.5 us self (1.2%)</title><rect x="78.61" y="370" width="15.28" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 23.4 us total, 23.4 us self (0.2%)</title><rect x="78.61" y="352" width="2.56" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 22.4 us total, 22.4 us self (0.2%)</title><rect x="81.17" y="352" width="2.45" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 37.3 us total, 0.2 us self (0.3%)</title><rect x="83.62" y="352" width="4.08" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 37.1 us total, 2.6 us self (0.3%)</title><rect x="83.62" y="334" width="4.06" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 33.5 us total, 0.6 us self (0.3%)</title><rect x="83.62" y="316" width="3.67" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 32.6 us total, 0.8 us self (0.3%)</title><rect x="83.62" y="298" width="3.57" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 31.4 us total, 0.4 us self (0.3%)</title><rect x="83.62" y="280" width="3.43" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 31.0 us total, 0.3 us self (0.3%)</title><rect x="83.62" y="262" width="3.39" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 30.7 us total, 0.2 us self (0.3%)</title><rect x="83.62" y="244" width="3.36" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 30.5 us total, 0.6 us self (0.3%)</title><rect x="83.62" y="226" width="3.34" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__traceiter_sched_waking: 28.2 us total, 28.2 us self (0.2%)</title><rect x="83.62" y="208" width="3.09" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>free_frozen_pages: 113.0 us total, 20.0 us self (1.0%)</title><rect x="97.42" y="388" width="12.37" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__free_frozen_pages: 92.9 us total, 51.3 us self (0.8%)</title><rect x="97.42" y="370" width="10.18" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_trylock: 15.1 us total, 15.1 us self (0.1%)</title><rect x="97.42" y="352" width="1.65" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock: 10.5 us total, 10.5 us self (0.1%)</title><rect x="99.07" y="352" width="1.14" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>free_frozen_page_commit: 16.1 us total, 12.2 us self (0.1%)</title><rect x="100.21" y="352" width="1.76" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 3.9 us total, 0.1 us self (0.0%)</title><rect x="100.21" y="334" width="0.43" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 3.8 us total, 0.6 us self (0.0%)</title><rect x="100.21" y="316" width="0.42" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 2.8 us total, 0.3 us self (0.0%)</title><rect x="100.21" y="298" width="0.30" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>finish_wait: 37.4 us total, 11.4 us self (0.3%)</title><rect x="118.20" y="424" width="4.10" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 23.6 us total, 5.1 us self (0.2%)</title><rect x="118.20" y="406" width="2.59" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>native_queued_spin_lock_slowpath: 18.5 us total, 18.5 us self (0.2%)</title><rect x="118.20" y="388" width="2.03" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_mm_fault: 1,499.2 us total, 46.8 us self (12.8%)</title><rect x="122.30" y="424" width="164.14" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="125.30" y="436.5" fill="#000000">handle_mm_fault</text></g>
+<g class="f"><title>__handle_mm_fault: 1,398.6 us total, 16.2 us self (12.0%)</title><rect x="122.30" y="406" width="153.12" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="125.30" y="418.5" fill="#000000">__handle_mm_fault</text></g>
+<g class="f"><title>handle_pte_fault: 1,382.4 us total, 31.1 us self (11.8%)</title><rect x="122.30" y="388" width="151.36" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="125.30" y="400.5" fill="#000000">handle_pte_fault</text></g>
+<g class="f"><title>__rcu_read_unlock: 16.9 us total, 8.9 us self (0.1%)</title><rect x="122.30" y="370" width="1.85" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.8 us total, 0.2 us self (0.1%)</title><rect x="122.30" y="352" width="0.86" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.6 us total, 1.1 us self (0.1%)</title><rect x="122.30" y="334" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 5.5 us total, 0.6 us self (0.0%)</title><rect x="122.30" y="316" width="0.61" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 4.7 us total, 0.8 us self (0.0%)</title><rect x="122.30" y="298" width="0.51" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 3.4 us total, 0.4 us self (0.0%)</title><rect x="122.30" y="280" width="0.37" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 3.0 us total, 0.2 us self (0.0%)</title><rect x="122.30" y="262" width="0.33" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 2.8 us total, 0.2 us self (0.0%)</title><rect x="122.30" y="244" width="0.30" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 6.9 us total, 0.1 us self (0.1%)</title><rect x="124.14" y="370" width="0.76" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 6.8 us total, 0.6 us self (0.1%)</title><rect x="124.14" y="352" width="0.75" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 5.7 us total, 0.3 us self (0.0%)</title><rect x="124.14" y="334" width="0.62" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.3 us total, 0.4 us self (0.0%)</title><rect x="124.14" y="316" width="0.58" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 4.7 us total, 0.2 us self (0.0%)</title><rect x="124.14" y="298" width="0.51" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 4.5 us total, 0.1 us self (0.0%)</title><rect x="124.14" y="280" width="0.49" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 4.4 us total, 0.1 us self (0.0%)</title><rect x="124.14" y="262" width="0.48" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.3 us total, 0.5 us self (0.0%)</title><rect x="124.14" y="244" width="0.47" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>do_anonymous_page: 1,289.4 us total, 82.9 us self (11.0%)</title><rect x="124.90" y="370" width="141.17" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="127.90" y="382.5" fill="#000000">do_anonymous_page</text></g>
+<g class="f"><title>__rcu_read_unlock: 7.4 us total, 7.4 us self (0.1%)</title><rect x="124.90" y="352" width="0.81" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__vmf_anon_prepare: 7.6 us total, 7.6 us self (0.1%)</title><rect x="125.71" y="352" width="0.83" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 8.7 us total, 8.7 us self (0.1%)</title><rect x="126.54" y="352" width="0.95" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock: 15.7 us total, 7.8 us self (0.1%)</title><rect x="127.49" y="352" width="1.72" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.8 us total, 0.1 us self (0.1%)</title><rect x="127.49" y="334" width="0.86" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.7 us total, 0.6 us self (0.1%)</title><rect x="127.49" y="316" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 6.6 us total, 0.3 us self (0.1%)</title><rect x="127.49" y="298" width="0.72" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 6.2 us total, 0.4 us self (0.1%)</title><rect x="127.49" y="280" width="0.67" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 5.5 us total, 0.2 us self (0.0%)</title><rect x="127.49" y="262" width="0.60" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 5.3 us total, 0.1 us self (0.0%)</title><rect x="127.49" y="244" width="0.58" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 5.2 us total, 0.1 us self (0.0%)</title><rect x="127.49" y="226" width="0.57" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 5.1 us total, 0.5 us self (0.0%)</title><rect x="127.49" y="208" width="0.55" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 3.0 us total, 0.3 us self (0.0%)</title><rect x="127.56" y="190" width="0.33" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock_irqrestore: 9.4 us total, 9.4 us self (0.1%)</title><rect x="129.21" y="352" width="1.03" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>alloc_anon_folio: 653.2 us total, 30.7 us self (5.6%)</title><rect x="130.24" y="352" width="71.51" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="133.24" y="364.5" fill="#ffffff">alloc_an…</text></g>
+<g class="f"><title>__folio_throttle_swaprate: 71.8 us total, 15.2 us self (0.6%)</title><rect x="130.24" y="334" width="7.86" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>blk_cgroup_congested: 56.6 us total, 31.4 us self (0.5%)</title><rect x="130.24" y="316" width="6.20" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 7.4 us total, 7.4 us self (0.1%)</title><rect x="130.31" y="298" width="0.82" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 8.1 us total, 8.1 us self (0.1%)</title><rect x="131.13" y="298" width="0.89" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>kthread_blkcg: 7.4 us total, 7.4 us self (0.1%)</title><rect x="132.18" y="298" width="0.81" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mem_cgroup_charge: 313.8 us total, 46.9 us self (2.7%)</title><rect x="138.10" y="334" width="34.36" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="141.10" y="346.5" fill="#ffffff">__m…</text></g>
+<g class="f"><title>__rcu_read_lock: 7.4 us total, 7.4 us self (0.1%)</title><rect x="138.10" y="316" width="0.81" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 15.7 us total, 7.2 us self (0.1%)</title><rect x="138.91" y="316" width="1.72" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 7.1 us total, 0.1 us self (0.1%)</title><rect x="139.00" y="298" width="0.78" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 7.0 us total, 0.4 us self (0.1%)</title><rect x="139.00" y="280" width="0.76" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 6.1 us total, 0.3 us self (0.1%)</title><rect x="139.00" y="262" width="0.67" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_wakeup: 5.6 us total, 0.1 us self (0.0%)</title><rect x="139.02" y="244" width="0.62" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>wake_up_process: 5.5 us total, 0.1 us self (0.0%)</title><rect x="139.02" y="226" width="0.60" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 5.4 us total, 0.4 us self (0.0%)</title><rect x="139.02" y="208" width="0.59" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.7 us total, 0.1 us self (0.0%)</title><rect x="140.63" y="316" width="0.52" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.6 us total, 0.6 us self (0.0%)</title><rect x="140.63" y="298" width="0.51" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.6 us total, 0.3 us self (0.0%)</title><rect x="140.63" y="280" width="0.39" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 3.2 us total, 0.4 us self (0.0%)</title><rect x="140.63" y="262" width="0.35" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>charge_memcg: 172.2 us total, 45.1 us self (1.5%)</title><rect x="141.15" y="316" width="18.85" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__get_obj_cgroup_from_memcg: 36.8 us total, 22.0 us self (0.3%)</title><rect x="141.15" y="298" width="4.03" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 7.5 us total, 7.5 us self (0.1%)</title><rect x="141.15" y="280" width="0.82" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 7.3 us total, 7.3 us self (0.1%)</title><rect x="141.97" y="280" width="0.80" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 12.4 us total, 8.3 us self (0.1%)</title><rect x="145.18" y="298" width="1.36" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.1 us total, 0.1 us self (0.0%)</title><rect x="145.18" y="280" width="0.45" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.0 us total, 0.7 us self (0.0%)</title><rect x="145.18" y="262" width="0.44" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 2.8 us total, 0.3 us self (0.0%)</title><rect x="145.18" y="244" width="0.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 7.8 us total, 7.8 us self (0.1%)</title><rect x="146.54" y="298" width="0.86" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_commit_charge: 60.6 us total, 23.7 us self (0.5%)</title><rect x="147.40" y="298" width="6.63" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>count_memcg_events: 23.7 us total, 15.6 us self (0.2%)</title><rect x="147.72" y="280" width="2.60" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 8.2 us total, 8.2 us self (0.1%)</title><rect x="147.72" y="262" width="0.89" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_check_events: 9.7 us total, 8.6 us self (0.1%)</title><rect x="150.37" y="280" width="1.07" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_charge_memcg: 9.4 us total, 8.0 us self (0.1%)</title><rect x="154.03" y="298" width="1.03" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>get_mem_cgroup_from_mm: 66.8 us total, 37.6 us self (0.6%)</title><rect x="160.00" y="316" width="7.31" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 14.8 us total, 14.8 us self (0.1%)</title><rect x="160.00" y="298" width="1.63" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 14.4 us total, 14.4 us self (0.1%)</title><rect x="161.63" y="298" width="1.57" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.8 us total, 0.1 us self (0.1%)</title><rect x="172.46" y="334" width="0.85" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.7 us total, 0.7 us self (0.1%)</title><rect x="172.46" y="316" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 6.5 us total, 0.3 us self (0.1%)</title><rect x="172.46" y="298" width="0.71" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 6.0 us total, 0.4 us self (0.1%)</title><rect x="172.46" y="280" width="0.66" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 5.4 us total, 0.3 us self (0.0%)</title><rect x="172.46" y="262" width="0.59" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 5.1 us total, 0.1 us self (0.0%)</title><rect x="172.46" y="244" width="0.56" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 5.0 us total, 0.1 us self (0.0%)</title><rect x="172.46" y="226" width="0.55" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.9 us total, 0.5 us self (0.0%)</title><rect x="172.46" y="208" width="0.54" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 3.1 us total, 0.3 us self (0.0%)</title><rect x="172.51" y="190" width="0.34" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>vma_alloc_folio_noprof: 229.0 us total, 22.1 us self (2.0%)</title><rect x="173.32" y="334" width="25.07" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>alloc_pages_mpol: 198.5 us total, 22.8 us self (1.7%)</title><rect x="173.32" y="316" width="21.73" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__alloc_frozen_pages_noprof: 168.1 us total, 28.9 us self (1.4%)</title><rect x="173.32" y="298" width="18.40" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__next_zones_zonelist: 7.6 us total, 7.6 us self (0.1%)</title><rect x="173.32" y="280" width="0.83" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>get_page_from_freelist: 131.6 us total, 58.0 us self (1.1%)</title><rect x="174.15" y="280" width="14.41" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>kernel_init_pages: 19.7 us total, 15.5 us self (0.2%)</title><rect x="174.15" y="262" width="2.16" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.2 us total, 0.1 us self (0.0%)</title><rect x="174.15" y="244" width="0.46" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.1 us total, 0.6 us self (0.0%)</title><rect x="174.15" y="226" width="0.45" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.0 us total, 0.3 us self (0.0%)</title><rect x="174.15" y="208" width="0.33" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>rmqueue_pcplist: 53.9 us total, 23.9 us self (0.5%)</title><rect x="176.31" y="262" width="5.90" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_trylock: 8.2 us total, 8.2 us self (0.1%)</title><rect x="176.31" y="244" width="0.90" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock: 21.7 us total, 21.7 us self (0.2%)</title><rect x="177.21" y="244" width="2.38" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>policy_nodemask: 7.6 us total, 7.6 us self (0.1%)</title><rect x="191.72" y="298" width="0.83" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>get_vma_policy: 8.4 us total, 8.4 us self (0.1%)</title><rect x="195.05" y="316" width="0.92" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 5.1 us total, 0.1 us self (0.0%)</title><rect x="201.75" y="352" width="0.56" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 5.0 us total, 0.7 us self (0.0%)</title><rect x="201.75" y="334" width="0.55" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.9 us total, 0.3 us self (0.0%)</title><rect x="201.75" y="316" width="0.42" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 3.4 us total, 0.5 us self (0.0%)</title><rect x="201.75" y="298" width="0.38" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 2.8 us total, 0.2 us self (0.0%)</title><rect x="201.75" y="280" width="0.30" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>map_anon_folio_pte_nopf: 444.9 us total, 32.4 us self (3.8%)</title><rect x="202.32" y="352" width="48.71" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="205.32" y="364.5" fill="#ffffff">map_a…</text></g>
+<g class="f"><title>folio_add_lru_vma: 208.1 us total, 15.1 us self (1.8%)</title><rect x="202.32" y="334" width="22.79" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>folio_add_lru: 193.0 us total, 14.8 us self (1.7%)</title><rect x="202.32" y="316" width="21.13" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__folio_batch_add_and_move: 178.2 us total, 8.2 us self (1.5%)</title><rect x="202.32" y="298" width="19.51" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>folio_batch_move_lru: 170.0 us total, 8.5 us self (1.5%)</title><rect x="202.32" y="280" width="18.62" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock_irqrestore: 8.4 us total, 1.2 us self (0.1%)</title><rect x="202.34" y="262" width="0.92" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 6.1 us total, 0.7 us self (0.1%)</title><rect x="202.34" y="244" width="0.67" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.2 us total, 0.9 us self (0.0%)</title><rect x="202.34" y="226" width="0.57" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 3.9 us total, 0.4 us self (0.0%)</title><rect x="202.34" y="208" width="0.42" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 3.5 us total, 0.4 us self (0.0%)</title><rect x="202.34" y="190" width="0.38" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 3.1 us total, 0.2 us self (0.0%)</title><rect x="202.34" y="172" width="0.34" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 2.8 us total, 0.6 us self (0.0%)</title><rect x="202.34" y="154" width="0.31" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>lru_add: 150.7 us total, 46.4 us self (1.3%)</title><rect x="203.51" y="262" width="16.50" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mod_zone_page_state: 6.9 us total, 6.9 us self (0.1%)</title><rect x="203.51" y="244" width="0.76" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 6.9 us total, 6.9 us self (0.1%)</title><rect x="204.27" y="244" width="0.75" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 6.7 us total, 6.7 us self (0.1%)</title><rect x="205.02" y="244" width="0.74" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>folio_mapping: 6.9 us total, 6.9 us self (0.1%)</title><rect x="205.78" y="244" width="0.76" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_lruvec_state: 76.6 us total, 20.9 us self (0.7%)</title><rect x="206.55" y="244" width="8.38" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_memcg_lruvec_state: 48.1 us total, 12.5 us self (0.4%)</title><rect x="206.58" y="226" width="5.26" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mod_memcg_lruvec_state: 35.5 us total, 21.0 us self (0.3%)</title><rect x="206.58" y="208" width="3.89" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 7.1 us total, 7.1 us self (0.1%)</title><rect x="206.58" y="190" width="0.78" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg_state_val_in_pages: 7.5 us total, 7.5 us self (0.1%)</title><rect x="207.36" y="190" width="0.82" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_node_page_state: 7.3 us total, 7.3 us self (0.1%)</title><rect x="211.84" y="226" width="0.80" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>folio_add_new_anon_rmap: 196.1 us total, 15.8 us self (1.7%)</title><rect x="225.10" y="334" width="21.47" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__folio_mod_stat: 180.2 us total, 15.3 us self (1.5%)</title><rect x="225.10" y="316" width="19.73" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.8 us total, 0.1 us self (0.0%)</title><rect x="225.10" y="298" width="0.52" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.7 us total, 0.6 us self (0.0%)</title><rect x="225.10" y="280" width="0.51" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.6 us total, 0.3 us self (0.0%)</title><rect x="225.10" y="262" width="0.39" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 3.2 us total, 0.4 us self (0.0%)</title><rect x="225.10" y="244" width="0.35" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>lruvec_stat_mod_folio: 160.1 us total, 38.0 us self (1.4%)</title><rect x="225.64" y="298" width="17.53" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 8.0 us total, 8.0 us self (0.1%)</title><rect x="225.64" y="280" width="0.88" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 7.4 us total, 7.4 us self (0.1%)</title><rect x="226.51" y="280" width="0.81" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_memcg_lruvec_state: 98.5 us total, 14.3 us self (0.8%)</title><rect x="227.33" y="280" width="10.79" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mod_memcg_lruvec_state: 84.3 us total, 23.3 us self (0.7%)</title><rect x="227.33" y="262" width="9.22" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 29.4 us total, 29.4 us self (0.3%)</title><rect x="227.33" y="244" width="3.22" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 9.9 us total, 0.2 us self (0.1%)</title><rect x="230.55" y="244" width="1.08" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 9.7 us total, 0.4 us self (0.1%)</title><rect x="230.55" y="226" width="1.07" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 8.9 us total, 0.3 us self (0.1%)</title><rect x="230.55" y="208" width="0.97" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 8.3 us total, 0.2 us self (0.1%)</title><rect x="230.57" y="190" width="0.91" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 7.0 us total, 0.4 us self (0.1%)</title><rect x="230.68" y="172" width="0.77" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 4.8 us total, 0.7 us self (0.0%)</title><rect x="230.87" y="154" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.0 us total, 0.1 us self (0.0%)</title><rect x="231.63" y="244" width="0.43" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 3.9 us total, 0.5 us self (0.0%)</title><rect x="231.63" y="226" width="0.42" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 2.8 us total, 0.3 us self (0.0%)</title><rect x="231.63" y="208" width="0.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 9.9 us total, 0.3 us self (0.1%)</title><rect x="232.10" y="244" width="1.08" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_softirqs: 8.7 us total, 0.5 us self (0.1%)</title><rect x="232.17" y="226" width="0.96" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_softirq: 7.0 us total, 0.2 us self (0.1%)</title><rect x="232.31" y="208" width="0.77" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_update_blocked_averages: 6.3 us total, 0.3 us self (0.1%)</title><rect x="232.37" y="190" width="0.69" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sched_balance_update_blocked_averages: 5.3 us total, 0.2 us self (0.0%)</title><rect x="232.37" y="172" width="0.59" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_blocked_fair: 4.6 us total, 1.1 us self (0.0%)</title><rect x="232.37" y="154" width="0.50" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg_state_val_in_pages: 7.4 us total, 7.4 us self (0.1%)</title><rect x="233.18" y="244" width="0.81" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_node_page_state: 8.2 us total, 8.2 us self (0.1%)</title><rect x="238.11" y="280" width="0.90" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pte_mkwrite: 8.3 us total, 8.3 us self (0.1%)</title><rect x="246.57" y="334" width="0.91" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pte_offset_map_lock: 54.5 us total, 22.6 us self (0.5%)</title><rect x="251.03" y="352" width="5.97" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__pte_offset_map: 23.2 us total, 16.2 us self (0.2%)</title><rect x="251.03" y="334" width="2.54" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 7.0 us total, 7.0 us self (0.1%)</title><rect x="251.03" y="316" width="0.77" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 8.7 us total, 8.7 us self (0.1%)</title><rect x="253.57" y="334" width="0.96" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pte_offset_map_rw_nolock: 38.1 us total, 14.8 us self (0.3%)</title><rect x="266.08" y="370" width="4.17" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__pte_offset_map: 23.3 us total, 15.2 us self (0.2%)</title><rect x="266.08" y="352" width="2.56" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 8.1 us total, 8.1 us self (0.1%)</title><rect x="266.08" y="334" width="0.89" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 8.0 us total, 8.0 us self (0.1%)</title><rect x="275.42" y="406" width="0.87" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 7.6 us total, 7.6 us self (0.1%)</title><rect x="276.29" y="406" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.8 us total, 0.1 us self (0.0%)</title><rect x="277.13" y="406" width="0.52" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.7 us total, 0.7 us self (0.0%)</title><rect x="277.13" y="388" width="0.51" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.5 us total, 0.3 us self (0.0%)</title><rect x="277.13" y="370" width="0.38" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 3.0 us total, 0.4 us self (0.0%)</title><rect x="277.13" y="352" width="0.33" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>count_memcg_events: 25.8 us total, 15.9 us self (0.2%)</title><rect x="277.65" y="406" width="2.83" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 9.9 us total, 9.9 us self (0.1%)</title><rect x="277.65" y="388" width="1.09" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mem_cgroup_from_task: 7.6 us total, 7.6 us self (0.1%)</title><rect x="280.48" y="406" width="0.83" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>init_wait_entry: 4.4 us total, 4.4 us self (0.0%)</title><rect x="286.44" y="424" width="0.48" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 12.5 us total, 0.3 us self (0.1%)</title><rect x="286.94" y="424" width="1.36" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_softirqs: 11.2 us total, 0.6 us self (0.1%)</title><rect x="287.02" y="406" width="1.23" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>run_timer_softirq: 6.1 us total, 0.6 us self (0.1%)</title><rect x="287.04" y="388" width="0.66" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>call_timer_fn: 5.1 us total, 0.2 us self (0.0%)</title><rect x="287.06" y="370" width="0.56" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>process_timeout: 4.9 us total, 0.1 us self (0.0%)</title><rect x="287.06" y="352" width="0.54" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>wake_up_process: 4.8 us total, 0.1 us self (0.0%)</title><rect x="287.06" y="334" width="0.53" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.7 us total, 0.5 us self (0.0%)</title><rect x="287.06" y="316" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_softirq: 4.4 us total, 0.2 us self (0.0%)</title><rect x="287.70" y="388" width="0.49" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_update_blocked_averages: 3.7 us total, 0.3 us self (0.0%)</title><rect x="287.77" y="370" width="0.41" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>kill_fasync: 79.8 us total, 79.8 us self (0.7%)</title><rect x="288.30" y="424" width="8.74" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>lock_mm_and_find_vma: 71.1 us total, 22.7 us self (0.6%)</title><rect x="297.04" y="424" width="7.79" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>down_read_trylock: 8.4 us total, 8.4 us self (0.1%)</title><rect x="297.04" y="406" width="0.92" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>find_vma: 40.0 us total, 25.3 us self (0.3%)</title><rect x="297.96" y="406" width="4.38" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_lock: 7.0 us total, 7.0 us self (0.1%)</title><rect x="297.96" y="388" width="0.77" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 7.7 us total, 7.7 us self (0.1%)</title><rect x="298.73" y="388" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mutex_lock: 554.2 us total, 145.2 us self (4.7%)</title><rect x="304.83" y="424" width="60.68" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="307.83" y="436.5" fill="#ffffff">mutex_l…</text></g>
+<g class="f"><title>__mutex_lock_slowpath: 409.0 us total, 11.9 us self (3.5%)</title><rect x="304.83" y="406" width="44.78" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="307.83" y="418.5" fill="#ffffff">__mu…</text></g>
+<g class="f"><title>__mutex_lock.constprop.0: 397.0 us total, 25.0 us self (3.4%)</title><rect x="304.83" y="388" width="43.47" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="307.83" y="400.5" fill="#ffffff">__mu…</text></g>
+<g class="f"><title>mutex_spin_on_owner: 369.4 us total, 338.2 us self (3.2%)</title><rect x="304.83" y="370" width="40.44" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="307.83" y="382.5" fill="#ffffff">mute…</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 19.0 us total, 0.3 us self (0.2%)</title><rect x="304.90" y="352" width="2.08" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 18.7 us total, 0.9 us self (0.2%)</title><rect x="304.90" y="334" width="2.05" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 16.8 us total, 0.9 us self (0.1%)</title><rect x="304.90" y="316" width="1.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 14.9 us total, 0.6 us self (0.1%)</title><rect x="305.00" y="298" width="1.64" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 13.2 us total, 0.8 us self (0.1%)</title><rect x="305.13" y="280" width="1.45" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 8.9 us total, 1.3 us self (0.1%)</title><rect x="305.46" y="262" width="0.97" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 11.0 us total, 0.5 us self (0.1%)</title><rect x="307.02" y="352" width="1.20" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_softirqs: 9.6 us total, 0.7 us self (0.1%)</title><rect x="307.09" y="334" width="1.05" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_softirq: 7.3 us total, 0.1 us self (0.1%)</title><rect x="307.27" y="316" width="0.80" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_update_blocked_averages: 6.7 us total, 0.3 us self (0.1%)</title><rect x="307.32" y="298" width="0.73" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sched_balance_update_blocked_averages: 5.7 us total, 0.2 us self (0.0%)</title><rect x="307.32" y="280" width="0.62" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_blocked_fair: 5.0 us total, 1.6 us self (0.0%)</title><rect x="307.32" y="262" width="0.54" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mutex_unlock: 98.5 us total, 98.5 us self (0.8%)</title><rect x="365.51" y="424" width="10.79" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>prepare_to_wait_event: 24.3 us total, 14.1 us self (0.2%)</title><rect x="376.29" y="424" width="2.67" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 6.2 us total, 5.8 us self (0.1%)</title><rect x="376.29" y="406" width="0.68" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock_irqrestore: 4.1 us total, 4.1 us self (0.0%)</title><rect x="376.97" y="406" width="0.45" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_irqentry_exit_cond_resched: 8.0 us total, 8.0 us self (0.1%)</title><rect x="378.96" y="424" width="0.88" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>schedule: 606.3 us total, 0.0 us self (5.2%)</title><rect x="379.84" y="424" width="66.38" height="17" fill="#5d6d7e" stroke="#ffffff" stroke-width="0.5"/><text x="382.84" y="436.5" fill="#ffffff">schedule</text></g>
+<g class="f"><title>__traceiter_sched_switch: 11.7 us total, 11.7 us self (0.1%)</title><rect x="379.84" y="406" width="1.28" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>finish_task_switch.isra.0: 39.1 us total, 9.2 us self (0.3%)</title><rect x="381.12" y="406" width="4.28" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock: 5.0 us total, 5.0 us self (0.0%)</title><rect x="381.12" y="388" width="0.55" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>push_rt_tasks: 24.9 us total, 0.3 us self (0.2%)</title><rect x="381.67" y="388" width="2.72" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>push_rt_task.part.0: 24.6 us total, 1.3 us self (0.2%)</title><rect x="381.67" y="370" width="2.69" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>activate_task: 5.5 us total, 0.2 us self (0.0%)</title><rect x="381.68" y="352" width="0.60" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>enqueue_task: 5.3 us total, 0.5 us self (0.0%)</title><rect x="381.68" y="334" width="0.58" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>deactivate_task: 5.5 us total, 0.5 us self (0.0%)</title><rect x="382.29" y="352" width="0.60" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>find_lock_lowest_rq: 8.1 us total, 0.8 us self (0.1%)</title><rect x="382.89" y="352" width="0.89" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>find_lowest_rq: 5.6 us total, 0.7 us self (0.0%)</title><rect x="383.05" y="334" width="0.62" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>cpupri_find_fitness: 4.7 us total, 2.5 us self (0.0%)</title><rect x="383.08" y="316" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pick_next_task: 365.2 us total, 26.5 us self (3.1%)</title><rect x="385.68" y="406" width="39.98" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/><text x="388.68" y="418.5" fill="#000000">pick…</text></g>
+<g class="f"><title>balance_rt: 17.7 us total, 5.4 us self (0.2%)</title><rect x="385.74" y="388" width="1.93" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pull_rt_task: 12.3 us total, 4.0 us self (0.1%)</title><rect x="385.74" y="370" width="1.34" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>deactivate_task: 3.2 us total, 0.3 us self (0.0%)</title><rect x="386.02" y="352" width="0.35" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pick_next_task_fair: 288.6 us total, 8.4 us self (2.5%)</title><rect x="387.69" y="388" width="31.60" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/><text x="390.69" y="400.5" fill="#000000">pi…</text></g>
+<g class="f"><title>pick_task_fair: 8.7 us total, 5.0 us self (0.1%)</title><rect x="387.69" y="370" width="0.96" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_newidle: 252.4 us total, 18.1 us self (2.2%)</title><rect x="388.89" y="370" width="27.64" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/><text x="391.89" y="382.5" fill="#000000">sc…</text></g>
+<g class="f"><title>__msecs_to_jiffies: 4.1 us total, 4.1 us self (0.0%)</title><rect x="388.89" y="352" width="0.45" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sched_balance_update_blocked_averages: 88.4 us total, 6.3 us self (0.8%)</title><rect x="389.34" y="352" width="9.68" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_blocked_fair: 62.8 us total, 32.1 us self (0.5%)</title><rect x="389.34" y="334" width="6.87" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_load_avg_cfs_rq: 21.4 us total, 21.4 us self (0.2%)</title><rect x="389.34" y="316" width="2.34" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_load_avg_se: 8.9 us total, 8.9 us self (0.1%)</title><rect x="391.68" y="316" width="0.98" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_other_load_avgs: 19.4 us total, 8.2 us self (0.2%)</title><rect x="396.21" y="334" width="2.12" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_irq_load_avg: 5.8 us total, 4.0 us self (0.0%)</title><rect x="396.49" y="316" width="0.64" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rt_rq_load_avg: 2.8 us total, 2.7 us self (0.0%)</title><rect x="397.13" y="316" width="0.31" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_spin_rq_lock_nested: 7.3 us total, 4.2 us self (0.1%)</title><rect x="399.29" y="352" width="0.79" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 3.1 us total, 3.1 us self (0.0%)</title><rect x="399.29" y="334" width="0.34" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_rq: 132.1 us total, 12.9 us self (1.1%)</title><rect x="400.08" y="352" width="14.46" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_find_src_group: 114.9 us total, 44.9 us self (1.0%)</title><rect x="400.08" y="334" width="12.58" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>cpu_util: 51.1 us total, 34.8 us self (0.4%)</title><rect x="400.08" y="316" width="5.59" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_scale_cpu_capacity: 16.2 us total, 16.2 us self (0.1%)</title><rect x="400.08" y="298" width="1.77" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>idle_cpu: 8.0 us total, 8.0 us self (0.1%)</title><rect x="405.67" y="316" width="0.87" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_use_asym_prio.isra.0: 2.8 us total, 2.8 us self (0.0%)</title><rect x="406.54" y="316" width="0.30" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_sd_pick_busiest: 7.8 us total, 7.8 us self (0.1%)</title><rect x="406.90" y="316" width="0.85" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>should_we_balance: 4.3 us total, 4.3 us self (0.0%)</title><rect x="412.66" y="334" width="0.47" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>set_next_task_fair: 16.9 us total, 2.3 us self (0.1%)</title><rect x="416.53" y="370" width="1.85" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>set_next_entity: 13.2 us total, 6.8 us self (0.1%)</title><rect x="416.68" y="352" width="1.44" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>put_prev_task_rt: 19.3 us total, 7.6 us self (0.2%)</title><rect x="420.36" y="388" width="2.11" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_curr_common: 8.1 us total, 4.8 us self (0.1%)</title><rect x="420.36" y="370" width="0.89" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_se: 3.3 us total, 3.1 us self (0.0%)</title><rect x="420.36" y="352" width="0.37" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rt_rq_load_avg: 3.5 us total, 3.4 us self (0.0%)</title><rect x="421.25" y="370" width="0.38" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_account_irqtime: 30.2 us total, 17.2 us self (0.3%)</title><rect x="425.66" y="406" width="3.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>record_times: 13.0 us total, 12.7 us self (0.1%)</title><rect x="425.66" y="388" width="1.43" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_task_switch: 66.3 us total, 20.8 us self (0.6%)</title><rect x="428.96" y="406" width="7.26" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_flags_change: 4.0 us total, 4.0 us self (0.0%)</title><rect x="428.96" y="388" width="0.43" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_group_change: 41.5 us total, 27.0 us self (0.4%)</title><rect x="429.40" y="388" width="4.55" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>record_times: 14.5 us total, 14.5 us self (0.1%)</title><rect x="429.40" y="370" width="1.59" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_spin_rq_lock_nested.constprop.0: 9.3 us total, 5.0 us self (0.1%)</title><rect x="436.22" y="406" width="1.02" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 4.3 us total, 4.3 us self (0.0%)</title><rect x="436.22" y="388" width="0.48" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>rcu_note_context_switch: 3.1 us total, 2.9 us self (0.0%)</title><rect x="437.24" y="406" width="0.34" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_block_task.constprop.0.isra.0: 54.6 us total, 5.5 us self (0.5%)</title><rect x="437.58" y="406" width="5.98" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>dequeue_task_rt: 49.1 us total, 9.8 us self (0.4%)</title><rect x="437.58" y="388" width="5.38" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>dequeue_rt_stack: 12.8 us total, 6.2 us self (0.1%)</title><rect x="437.58" y="370" width="1.41" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>cpupri_set: 6.6 us total, 6.6 us self (0.1%)</title><rect x="437.58" y="352" width="0.73" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_curr_common: 26.5 us total, 4.5 us self (0.2%)</title><rect x="438.98" y="370" width="2.91" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_se: 22.0 us total, 10.8 us self (0.2%)</title><rect x="438.98" y="352" width="2.41" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__cgroup_account_cputime: 8.2 us total, 5.3 us self (0.1%)</title><rect x="438.98" y="334" width="0.90" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 3.0 us total, 3.0 us self (0.0%)</title><rect x="438.98" y="316" width="0.32" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>cpuacct_charge: 3.0 us total, 3.0 us self (0.0%)</title><rect x="439.89" y="334" width="0.33" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rq_clock: 24.3 us total, 4.8 us self (0.2%)</title><rect x="443.56" y="406" width="2.66" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rq_clock_task: 19.5 us total, 7.8 us self (0.2%)</title><rect x="443.56" y="388" width="2.13" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_irq_load_avg: 9.1 us total, 6.4 us self (0.1%)</title><rect x="443.84" y="370" width="0.99" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>up_read: 9.6 us total, 9.6 us self (0.1%)</title><rect x="446.22" y="424" width="1.05" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>rw_verify_area: 1,740.0 us total, 163.5 us self (14.9%)</title><rect x="537.95" y="442" width="190.51" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="540.95" y="454.5" fill="#000000">rw_verify_area</text></g>
+<g class="f"><title>security_file_permission: 1,576.5 us total, 249.1 us self (13.5%)</title><rect x="537.95" y="424" width="172.61" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="540.95" y="436.5" fill="#000000">security_file_permission</text></g>
+<g class="f"><title>arch_irq_work_raise: 6.6 us total, 0.1 us self (0.1%)</title><rect x="537.95" y="406" width="0.73" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 6.5 us total, 0.6 us self (0.1%)</title><rect x="537.95" y="388" width="0.72" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 5.4 us total, 0.3 us self (0.0%)</title><rect x="537.95" y="370" width="0.59" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.0 us total, 0.4 us self (0.0%)</title><rect x="537.95" y="352" width="0.54" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 4.3 us total, 0.2 us self (0.0%)</title><rect x="537.95" y="334" width="0.47" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 4.1 us total, 0.1 us self (0.0%)</title><rect x="537.95" y="316" width="0.45" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 4.0 us total, 0.1 us self (0.0%)</title><rect x="537.95" y="298" width="0.44" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 3.9 us total, 0.5 us self (0.0%)</title><rect x="537.95" y="280" width="0.43" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>bpf_lsm_file_permission: 80.6 us total, 80.6 us self (0.7%)</title><rect x="538.68" y="406" width="8.83" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>selinux_file_permission: 1,240.1 us total, 152.6 us self (10.6%)</title><rect x="547.51" y="406" width="135.77" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="550.51" y="418.5" fill="#000000">selinux_file_permi…</text></g>
+<g class="f"><title>__file_has_perm: 1,079.7 us total, 259.1 us self (9.2%)</title><rect x="547.51" y="388" width="118.21" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="550.51" y="400.5" fill="#000000">__file_has_perm</text></g>
+<g class="f"><title>bpf_fd_pass: 84.6 us total, 84.6 us self (0.7%)</title><rect x="547.51" y="370" width="9.26" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>inode_has_perm: 736.0 us total, 148.3 us self (6.3%)</title><rect x="556.77" y="370" width="80.59" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="559.77" y="382.5" fill="#000000">inode_has_…</text></g>
+<g class="f"><title>avc_has_perm: 587.7 us total, 334.3 us self (5.0%)</title><rect x="556.77" y="352" width="64.35" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="559.77" y="364.5" fill="#000000">avc_has…</text></g>
+<g class="f"><title>__rcu_read_lock: 80.9 us total, 80.9 us self (0.7%)</title><rect x="556.77" y="334" width="8.85" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 78.7 us total, 78.7 us self (0.7%)</title><rect x="565.63" y="334" width="8.62" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>avc_lookup: 93.9 us total, 93.9 us self (0.8%)</title><rect x="574.24" y="334" width="10.28" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.7 us total, 0.1 us self (0.1%)</title><rect x="665.73" y="388" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.5 us total, 1.0 us self (0.1%)</title><rect x="665.73" y="370" width="0.83" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 5.9 us total, 0.4 us self (0.1%)</title><rect x="665.73" y="352" width="0.65" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.5 us total, 0.5 us self (0.0%)</title><rect x="665.73" y="334" width="0.60" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 4.7 us total, 0.2 us self (0.0%)</title><rect x="665.73" y="316" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 4.5 us total, 0.1 us self (0.0%)</title><rect x="665.73" y="298" width="0.50" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 4.4 us total, 0.1 us self (0.0%)</title><rect x="665.73" y="280" width="0.48" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.3 us total, 0.5 us self (0.0%)</title><rect x="665.73" y="262" width="0.47" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ksys_write: 4,631.6 us total, 244.8 us self (39.6%)</title><rect x="782.80" y="478" width="507.09" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="785.80" y="490.5" fill="#000000">ksys_write</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 8.0 us total, 0.1 us self (0.1%)</title><rect x="782.80" y="460" width="0.88" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 7.9 us total, 0.4 us self (0.1%)</title><rect x="782.80" y="442" width="0.86" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 7.1 us total, 0.4 us self (0.1%)</title><rect x="782.80" y="424" width="0.78" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 6.2 us total, 0.3 us self (0.1%)</title><rect x="782.86" y="406" width="0.68" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 5.7 us total, 0.4 us self (0.0%)</title><rect x="782.88" y="388" width="0.63" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 3.6 us total, 0.6 us self (0.0%)</title><rect x="783.06" y="370" width="0.39" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 7.2 us total, 0.1 us self (0.1%)</title><rect x="783.68" y="460" width="0.79" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 7.1 us total, 0.7 us self (0.1%)</title><rect x="783.68" y="442" width="0.78" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 5.8 us total, 0.3 us self (0.0%)</title><rect x="783.68" y="424" width="0.64" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 5.4 us total, 0.4 us self (0.0%)</title><rect x="783.68" y="406" width="0.59" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 4.7 us total, 0.2 us self (0.0%)</title><rect x="783.68" y="388" width="0.52" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 4.5 us total, 0.1 us self (0.0%)</title><rect x="783.68" y="370" width="0.50" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 4.4 us total, 0.1 us self (0.0%)</title><rect x="783.68" y="352" width="0.48" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 4.3 us total, 0.6 us self (0.0%)</title><rect x="783.68" y="334" width="0.47" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>fdget_pos: 85.7 us total, 85.7 us self (0.7%)</title><rect x="784.47" y="460" width="9.39" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 5.1 us total, 0.3 us self (0.0%)</title><rect x="793.89" y="460" width="0.56" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>vfs_write: 4,280.3 us total, 246.8 us self (36.6%)</title><rect x="794.46" y="460" width="468.63" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="797.46" y="472.5" fill="#000000">vfs_write</text></g>
+<g class="f"><title>anon_pipe_write: 2,288.6 us total, 470.5 us self (19.6%)</title><rect x="794.46" y="442" width="250.57" height="17" fill="#e67e22" stroke="#ffffff" stroke-width="0.5"/><text x="797.46" y="454.5" fill="#000000">anon_pipe_write</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 17.9 us total, 0.3 us self (0.2%)</title><rect x="794.61" y="424" width="1.96" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 17.7 us total, 0.8 us self (0.2%)</title><rect x="794.61" y="406" width="1.93" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 16.0 us total, 0.6 us self (0.1%)</title><rect x="794.61" y="388" width="1.76" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 14.8 us total, 0.5 us self (0.1%)</title><rect x="794.67" y="370" width="1.62" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 13.3 us total, 0.9 us self (0.1%)</title><rect x="794.78" y="352" width="1.45" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 9.2 us total, 1.3 us self (0.1%)</title><rect x="795.08" y="334" width="1.01" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_sync_key: 343.8 us total, 47.1 us self (2.9%)</title><rect x="796.57" y="424" width="37.64" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/><text x="799.57" y="436.5" fill="#000000">__w…</text></g>
+<g class="f"><title>__wake_up_common: 251.2 us total, 20.5 us self (2.1%)</title><rect x="796.57" y="406" width="27.50" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/><text x="799.57" y="418.5" fill="#000000">__…</text></g>
+<g class="f"><title>autoremove_wake_function: 230.6 us total, 12.9 us self (2.0%)</title><rect x="796.57" y="388" width="25.25" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 217.7 us total, 9.9 us self (1.9%)</title><rect x="796.57" y="370" width="23.84" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 207.9 us total, 28.0 us self (1.8%)</title><rect x="796.57" y="352" width="22.76" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>___task_rq_lock: 54.6 us total, 1.9 us self (0.5%)</title><rect x="796.57" y="334" width="5.98" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_spin_rq_lock_nested.constprop.0: 52.7 us total, 1.4 us self (0.5%)</title><rect x="796.57" y="316" width="5.77" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 51.4 us total, 1.7 us self (0.4%)</title><rect x="796.57" y="298" width="5.62" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>native_queued_spin_lock_slowpath: 49.6 us total, 49.6 us self (0.4%)</title><rect x="796.57" y="280" width="5.44" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__traceiter_sched_waking: 10.7 us total, 10.7 us self (0.1%)</title><rect x="802.54" y="334" width="1.17" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 6.8 us total, 6.8 us self (0.1%)</title><rect x="803.71" y="334" width="0.75" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock_irqrestore: 5.1 us total, 5.1 us self (0.0%)</title><rect x="804.57" y="334" width="0.55" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>select_task_rq_fair: 20.4 us total, 2.2 us self (0.2%)</title><rect x="805.23" y="334" width="2.24" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>select_idle_sibling: 17.3 us total, 4.4 us self (0.1%)</title><rect x="805.23" y="316" width="1.89" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>select_idle_capacity: 6.8 us total, 3.2 us self (0.1%)</title><rect x="805.67" y="298" width="0.75" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>set_task_cpu: 3.6 us total, 1.0 us self (0.0%)</title><rect x="807.47" y="334" width="0.40" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 23.3 us total, 1.8 us self (0.2%)</title><rect x="807.87" y="334" width="2.55" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>enqueue_task: 12.9 us total, 1.5 us self (0.1%)</title><rect x="808.08" y="316" width="1.41" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>enqueue_task_rt: 3.6 us total, 1.8 us self (0.0%)</title><rect x="808.08" y="298" width="0.39" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_task_change: 7.8 us total, 2.1 us self (0.1%)</title><rect x="808.47" y="298" width="0.85" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_group_change: 5.3 us total, 3.1 us self (0.0%)</title><rect x="808.52" y="280" width="0.58" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>wakeup_preempt: 5.9 us total, 2.6 us self (0.1%)</title><rect x="809.57" y="316" width="0.65" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_queue_wakelist: 50.6 us total, 14.3 us self (0.4%)</title><rect x="810.42" y="334" width="5.54" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__smp_call_single_queue: 32.9 us total, 15.2 us self (0.3%)</title><rect x="810.42" y="316" width="3.60" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>call_function_single_prep_ipi: 6.1 us total, 5.8 us self (0.1%)</title><rect x="810.42" y="298" width="0.67" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>native_send_call_func_single_ipi: 11.6 us total, 5.5 us self (0.1%)</title><rect x="811.09" y="298" width="1.27" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI: 6.2 us total, 6.2 us self (0.1%)</title><rect x="811.09" y="280" width="0.67" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>scx_allow_ttwu_queue: 3.5 us total, 3.5 us self (0.0%)</title><rect x="814.02" y="316" width="0.38" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock_irqsave: 20.3 us total, 18.3 us self (0.2%)</title><rect x="824.07" y="406" width="2.22" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock_irqrestore: 24.8 us total, 13.5 us self (0.2%)</title><rect x="826.29" y="406" width="2.71" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 10.2 us total, 0.7 us self (0.1%)</title><rect x="826.29" y="388" width="1.12" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 9.3 us total, 0.8 us self (0.1%)</title><rect x="826.29" y="370" width="1.02" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 8.0 us total, 0.6 us self (0.1%)</title><rect x="826.29" y="352" width="0.87" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 7.4 us total, 0.2 us self (0.1%)</title><rect x="826.29" y="334" width="0.81" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 7.2 us total, 0.2 us self (0.1%)</title><rect x="826.29" y="316" width="0.79" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 7.0 us total, 1.0 us self (0.1%)</title><rect x="826.29" y="298" width="0.77" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 3.4 us total, 0.3 us self (0.0%)</title><rect x="826.39" y="280" width="0.37" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>alloc_pages_noprof: 740.7 us total, 21.6 us self (6.3%)</title><rect x="834.20" y="424" width="81.09" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="837.20" y="436.5" fill="#ffffff">alloc_page…</text></g>
+<g class="f"><title>alloc_pages_mpol: 719.1 us total, 34.0 us self (6.2%)</title><rect x="834.20" y="406" width="78.73" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="837.20" y="418.5" fill="#ffffff">alloc_page…</text></g>
+<g class="f"><title>__alloc_frozen_pages_noprof: 673.5 us total, 56.0 us self (5.8%)</title><rect x="834.20" y="388" width="73.74" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="837.20" y="400.5" fill="#ffffff">__alloc_f…</text></g>
+<g class="f"><title>__memcg_kmem_charge_page: 362.6 us total, 44.7 us self (3.1%)</title><rect x="834.20" y="370" width="39.70" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="837.20" y="382.5" fill="#ffffff">__me…</text></g>
+<g class="f"><title>__rcu_read_lock: 10.7 us total, 10.7 us self (0.1%)</title><rect x="834.20" y="352" width="1.17" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 10.7 us total, 10.7 us self (0.1%)</title><rect x="835.37" y="352" width="1.17" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>obj_cgroup_charge_pages: 296.5 us total, 113.6 us self (2.5%)</title><rect x="836.54" y="352" width="32.46" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="839.54" y="364.5" fill="#ffffff">obj…</text></g>
+<g class="f"><title>__rcu_read_lock: 32.7 us total, 32.7 us self (0.3%)</title><rect x="836.54" y="334" width="3.58" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 33.7 us total, 33.7 us self (0.3%)</title><rect x="840.12" y="334" width="3.69" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 14.8 us total, 0.2 us self (0.1%)</title><rect x="843.81" y="334" width="1.62" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 14.5 us total, 1.6 us self (0.1%)</title><rect x="843.81" y="316" width="1.59" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 11.8 us total, 0.7 us self (0.1%)</title><rect x="843.81" y="298" width="1.30" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up: 10.9 us total, 1.0 us self (0.1%)</title><rect x="843.81" y="280" width="1.19" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__wake_up_common: 9.4 us total, 0.6 us self (0.1%)</title><rect x="843.81" y="262" width="1.03" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pollwake: 8.9 us total, 0.2 us self (0.1%)</title><rect x="843.81" y="244" width="0.97" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>default_wake_function: 8.7 us total, 0.2 us self (0.1%)</title><rect x="843.81" y="226" width="0.95" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_wake_up: 8.5 us total, 0.8 us self (0.1%)</title><rect x="843.81" y="208" width="0.93" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>ttwu_do_activate: 3.1 us total, 0.3 us self (0.0%)</title><rect x="844.11" y="190" width="0.34" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg1_account_kmem: 10.9 us total, 10.9 us self (0.1%)</title><rect x="845.45" y="334" width="1.19" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mod_memcg_state: 76.9 us total, 20.4 us self (0.7%)</title><rect x="846.64" y="334" width="8.42" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__mod_memcg_state: 56.4 us total, 33.7 us self (0.5%)</title><rect x="846.64" y="316" width="6.18" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__css_rstat_updated: 12.1 us total, 12.1 us self (0.1%)</title><rect x="846.64" y="298" width="1.32" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>memcg_state_val_in_pages: 10.7 us total, 10.7 us self (0.1%)</title><rect x="847.96" y="298" width="1.17" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_charge_memcg: 13.8 us total, 11.4 us self (0.1%)</title><rect x="855.06" y="334" width="1.51" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__next_zones_zonelist: 11.8 us total, 11.8 us self (0.1%)</title><rect x="873.90" y="370" width="1.29" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.7 us total, 0.2 us self (0.0%)</title><rect x="875.19" y="370" width="0.51" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 4.5 us total, 0.7 us self (0.0%)</title><rect x="875.19" y="352" width="0.49" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 3.1 us total, 0.4 us self (0.0%)</title><rect x="875.19" y="334" width="0.34" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>get_page_from_freelist: 238.5 us total, 86.4 us self (2.0%)</title><rect x="875.70" y="370" width="26.11" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/><text x="878.70" y="382.5" fill="#ffffff">ge…</text></g>
+<g class="f"><title>kernel_init_pages: 37.5 us total, 33.4 us self (0.3%)</title><rect x="875.70" y="352" width="4.10" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.0 us total, 0.1 us self (0.0%)</title><rect x="875.70" y="334" width="0.44" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 3.9 us total, 0.6 us self (0.0%)</title><rect x="875.70" y="316" width="0.43" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 2.8 us total, 0.3 us self (0.0%)</title><rect x="875.70" y="298" width="0.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>rmqueue_pcplist: 114.7 us total, 51.5 us self (1.0%)</title><rect x="879.80" y="352" width="12.56" height="17" fill="#8e44ad" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_trylock: 26.9 us total, 12.3 us self (0.2%)</title><rect x="879.80" y="334" width="2.95" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 10.1 us total, 0.1 us self (0.1%)</title><rect x="879.80" y="316" width="1.10" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 9.9 us total, 0.4 us self (0.1%)</title><rect x="879.80" y="298" width="1.09" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 9.0 us total, 0.3 us self (0.1%)</title><rect x="879.80" y="280" width="0.99" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 8.0 us total, 0.3 us self (0.1%)</title><rect x="879.87" y="262" width="0.88" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 7.5 us total, 0.4 us self (0.1%)</title><rect x="879.90" y="244" width="0.82" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 5.2 us total, 0.7 us self (0.0%)</title><rect x="880.09" y="226" width="0.57" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 4.3 us total, 0.4 us self (0.0%)</title><rect x="880.92" y="316" width="0.47" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>handle_softirqs: 2.8 us total, 0.4 us self (0.0%)</title><rect x="881.02" y="298" width="0.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_unlock: 32.2 us total, 32.2 us self (0.3%)</title><rect x="882.74" y="334" width="3.52" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>arch_irq_work_raise: 4.0 us total, 0.1 us self (0.0%)</title><rect x="886.27" y="334" width="0.44" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>x2apic_send_IPI_self: 3.9 us total, 0.6 us self (0.0%)</title><rect x="886.27" y="316" width="0.42" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sysvec_irq_work: 2.8 us total, 0.3 us self (0.0%)</title><rect x="886.27" y="298" width="0.31" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>policy_nodemask: 11.7 us total, 11.7 us self (0.1%)</title><rect x="907.94" y="388" width="1.28" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>kill_fasync: 90.2 us total, 90.2 us self (0.8%)</title><rect x="915.71" y="424" width="9.87" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mutex_lock: 400.6 us total, 140.1 us self (3.4%)</title><rect x="925.59" y="424" width="43.86" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="928.59" y="436.5" fill="#ffffff">mute…</text></g>
+<g class="f"><title>__mutex_lock_slowpath: 260.5 us total, 7.5 us self (2.2%)</title><rect x="925.59" y="406" width="28.52" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="928.59" y="418.5" fill="#ffffff">__…</text></g>
+<g class="f"><title>__mutex_lock.constprop.0: 253.0 us total, 16.9 us self (2.2%)</title><rect x="925.59" y="388" width="27.70" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/><text x="928.59" y="400.5" fill="#ffffff">__…</text></g>
+<g class="f"><title>mutex_spin_on_owner: 233.5 us total, 233.5 us self (2.0%)</title><rect x="925.59" y="370" width="25.57" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>mutex_unlock: 98.3 us total, 98.3 us self (0.8%)</title><rect x="969.45" y="424" width="10.76" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>prepare_to_wait_event: 3.8 us total, 2.5 us self (0.0%)</title><rect x="980.21" y="424" width="0.42" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>schedule: 117.5 us total, 0.0 us self (1.0%)</title><rect x="980.65" y="424" width="12.87" height="17" fill="#5d6d7e" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>finish_task_switch.isra.0: 18.6 us total, 3.4 us self (0.2%)</title><rect x="980.89" y="406" width="2.03" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>push_rt_tasks: 13.8 us total, 0.2 us self (0.1%)</title><rect x="981.03" y="388" width="1.51" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>push_rt_task.part.0: 13.6 us total, 0.5 us self (0.1%)</title><rect x="981.03" y="370" width="1.48" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>find_lock_lowest_rq: 12.9 us total, 0.4 us self (0.1%)</title><rect x="981.03" y="352" width="1.41" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>double_rq_lock: 8.6 us total, 0.4 us self (0.1%)</title><rect x="981.05" y="334" width="0.95" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_spin_rq_lock_nested.constprop.0: 8.2 us total, 0.2 us self (0.1%)</title><rect x="981.05" y="316" width="0.90" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 8.0 us total, 0.4 us self (0.1%)</title><rect x="981.05" y="298" width="0.88" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>native_queued_spin_lock_slowpath: 7.6 us total, 7.6 us self (0.1%)</title><rect x="981.05" y="280" width="0.84" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>find_lowest_rq: 3.5 us total, 0.8 us self (0.0%)</title><rect x="982.00" y="334" width="0.39" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pick_next_task: 67.1 us total, 3.7 us self (0.6%)</title><rect x="982.96" y="406" width="7.35" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>balance_rt: 11.9 us total, 0.8 us self (0.1%)</title><rect x="982.96" y="388" width="1.31" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pull_rt_task: 11.1 us total, 1.1 us self (0.1%)</title><rect x="982.96" y="370" width="1.21" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>double_rq_lock: 9.7 us total, 0.3 us self (0.1%)</title><rect x="983.00" y="352" width="1.06" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>raw_spin_rq_lock_nested.constprop.0: 9.3 us total, 0.5 us self (0.1%)</title><rect x="983.00" y="334" width="1.02" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>_raw_spin_lock: 8.9 us total, 0.4 us self (0.1%)</title><rect x="983.00" y="316" width="0.97" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>native_queued_spin_lock_slowpath: 8.5 us total, 8.5 us self (0.1%)</title><rect x="983.00" y="298" width="0.93" height="17" fill="#c0392b" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>pick_next_task_fair: 47.4 us total, 1.4 us self (0.4%)</title><rect x="984.27" y="388" width="5.19" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_newidle: 36.2 us total, 2.0 us self (0.3%)</title><rect x="984.60" y="370" width="3.96" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__sched_balance_update_blocked_averages: 14.6 us total, 0.6 us self (0.1%)</title><rect x="984.65" y="352" width="1.60" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_blocked_fair: 12.4 us total, 6.2 us self (0.1%)</title><rect x="984.65" y="334" width="1.35" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__update_load_avg_cfs_rq: 3.7 us total, 3.7 us self (0.0%)</title><rect x="984.65" y="316" width="0.41" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_rq: 18.2 us total, 1.4 us self (0.2%)</title><rect x="986.34" y="352" width="2.00" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_balance_find_src_group: 16.4 us total, 6.7 us self (0.1%)</title><rect x="986.34" y="334" width="1.79" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>cpu_util: 7.2 us total, 4.8 us self (0.1%)</title><rect x="986.34" y="316" width="0.78" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>set_next_task_fair: 6.9 us total, 1.1 us self (0.1%)</title><rect x="988.55" y="370" width="0.76" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>set_next_entity: 5.3 us total, 3.0 us self (0.0%)</title><rect x="988.62" y="352" width="0.58" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_account_irqtime: 4.1 us total, 2.4 us self (0.0%)</title><rect x="990.31" y="406" width="0.45" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_task_switch: 11.0 us total, 3.7 us self (0.1%)</title><rect x="990.76" y="406" width="1.21" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>psi_group_change: 6.8 us total, 4.6 us self (0.1%)</title><rect x="990.81" y="388" width="0.75" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>try_to_block_task.constprop.0.isra.0: 8.5 us total, 0.8 us self (0.1%)</title><rect x="992.19" y="406" width="0.93" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>dequeue_task_rt: 7.7 us total, 1.5 us self (0.1%)</title><rect x="992.19" y="388" width="0.85" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_curr_common: 4.3 us total, 0.7 us self (0.0%)</title><rect x="992.40" y="370" width="0.47" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_se: 3.6 us total, 1.8 us self (0.0%)</title><rect x="992.40" y="352" width="0.40" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rq_clock: 3.6 us total, 0.8 us self (0.0%)</title><rect x="993.12" y="406" width="0.39" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_rq_clock_task: 2.8 us total, 1.3 us self (0.0%)</title><rect x="993.12" y="388" width="0.30" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>rw_verify_area: 1,744.9 us total, 173.5 us self (14.9%)</title><rect x="1045.03" y="442" width="191.05" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="1048.03" y="454.5" fill="#000000">rw_verify_area</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 8.6 us total, 0.1 us self (0.1%)</title><rect x="1045.03" y="424" width="0.94" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 8.4 us total, 0.4 us self (0.1%)</title><rect x="1045.03" y="406" width="0.92" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 7.7 us total, 0.3 us self (0.1%)</title><rect x="1045.03" y="388" width="0.84" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 7.0 us total, 0.3 us self (0.1%)</title><rect x="1045.06" y="370" width="0.76" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 5.9 us total, 0.4 us self (0.1%)</title><rect x="1045.15" y="352" width="0.64" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 3.8 us total, 0.6 us self (0.0%)</title><rect x="1045.32" y="334" width="0.42" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>irq_exit_rcu: 3.8 us total, 0.3 us self (0.0%)</title><rect x="1045.98" y="424" width="0.42" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>security_file_permission: 1,558.8 us total, 247.1 us self (13.3%)</title><rect x="1046.41" y="424" width="170.66" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="1049.41" y="436.5" fill="#000000">security_file_permission</text></g>
+<g class="f"><title>__sysvec_apic_timer_interrupt: 8.5 us total, 0.2 us self (0.1%)</title><rect x="1046.48" y="406" width="0.93" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>hrtimer_interrupt: 8.3 us total, 0.4 us self (0.1%)</title><rect x="1046.48" y="388" width="0.91" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__hrtimer_run_queues: 7.5 us total, 0.3 us self (0.1%)</title><rect x="1046.48" y="370" width="0.82" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>tick_nohz_handler: 6.8 us total, 0.3 us self (0.1%)</title><rect x="1046.53" y="352" width="0.75" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>update_process_times: 5.8 us total, 0.4 us self (0.0%)</title><rect x="1046.61" y="334" width="0.64" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>sched_tick: 4.0 us total, 0.6 us self (0.0%)</title><rect x="1046.75" y="316" width="0.44" height="17" fill="#16a085" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>bpf_lsm_file_permission: 79.8 us total, 79.8 us self (0.7%)</title><rect x="1047.41" y="406" width="8.73" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>selinux_file_permission: 1,222.1 us total, 152.8 us self (10.5%)</title><rect x="1056.21" y="406" width="133.80" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="1059.21" y="418.5" fill="#000000">selinux_file_permi…</text></g>
+<g class="f"><title>__file_has_perm: 1,069.3 us total, 250.1 us self (9.1%)</title><rect x="1056.21" y="388" width="117.07" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="1059.21" y="400.5" fill="#000000">__file_has_perm</text></g>
+<g class="f"><title>bpf_fd_pass: 82.8 us total, 82.8 us self (0.7%)</title><rect x="1056.21" y="370" width="9.07" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>inode_has_perm: 736.3 us total, 149.3 us self (6.3%)</title><rect x="1065.28" y="370" width="80.61" height="17" fill="#bdc3c7" stroke="#ffffff" stroke-width="0.5"/><text x="1068.28" y="382.5" fill="#000000">inode_has_…</text></g>
+<g class="f"><title>avc_has_perm: 586.9 us total, 335.8 us self (5.0%)</title><rect x="1065.28" y="352" width="64.26" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/><text x="1068.28" y="364.5" fill="#000000">avc_has…</text></g>
+<g class="f"><title>__rcu_read_lock: 80.8 us total, 80.8 us self (0.7%)</title><rect x="1065.28" y="334" width="8.85" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>__rcu_read_unlock: 80.9 us total, 80.9 us self (0.7%)</title><rect x="1074.13" y="334" width="8.85" height="17" fill="#7f8c8d" stroke="#ffffff" stroke-width="0.5"/></g>
+<g class="f"><title>avc_lookup: 89.5 us total, 89.5 us self (0.8%)</title><rect x="1082.98" y="334" width="9.79" height="17" fill="#f1c40f" stroke="#ffffff" stroke-width="0.5"/></g>
+<rect x="10" y="530" width="12" height="12" fill="#f1c40f"/><text x="26" y="540" font-size="11">syscall entry/exit, VFS, security</text>
+<rect x="243.20000000000002" y="530" width="12" height="12" fill="#7f8c8d"/><text x="259.20000000000005" y="540" font-size="11">interrupts, IPIs, timers</text>
+<rect x="418.80000000000007" y="530" width="12" height="12" fill="#c0392b"/><text x="434.80000000000007" y="540" font-size="11">locking</text>
+<rect x="485.6000000000001" y="530" width="12" height="12" fill="#bdc3c7"/><text x="501.6000000000001" y="540" font-size="11">other kernel</text>
+<rect x="584.4000000000001" y="530" width="12" height="12" fill="#16a085"/><text x="600.4000000000001" y="540" font-size="11">scheduler, wakeup, idle</text>
+<rect x="753.6000000000001" y="530" width="12" height="12" fill="#8e44ad"/><text x="769.6000000000001" y="540" font-size="11">page alloc/free + memcg</text>
+<rect x="922.8000000000002" y="530" width="12" height="12" fill="#e67e22"/><text x="938.8000000000002" y="540" font-size="11">pipe read/write logic</text>
+<rect x="1079.2000000000003" y="530" width="12" height="12" fill="#5d6d7e"/><text x="1095.2000000000003" y="540" font-size="11">blocked / waiting (schedule)</text>
+</svg>

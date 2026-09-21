@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 """wakeup_timeline.py <run_dir> [--out DIR]
 
-Breaks every WAKEUP of a benchmark task into its phases, from the tracepoint capture (perf_trace.data)
-of a latency-trace.sh run. Every wakeup is in that capture (all tracepoint occurrences, nanosecond
+Breaks every WAKEUP of a benchmark task into its phases, from the tracepoint captures of a
+latency-trace.sh or throughput-trace.sh run (the benchmark's process name is read from params.txt).
+
+Two possible sources, the first preferred when present:
+  * perf_wakeup_<size>.data  DEDICATED captures (throughput-trace.sh): only scheduler / IPI / idle events, one
+    file per size, moving much more data, so there are enough wakeups per size. No syscall events in them, so
+    the last phase (switch -> syscall returns) is not available and is left out.
+  * perf_trace.data          the general tracepoint capture (latency-trace.sh; also in throughput runs): has
+    the syscall events too, and the size is found from the benchmark's pipe writes. Every wakeup is in that capture (all tracepoint occurrences, nanosecond
 timestamps), including the time both CPUs are idle, which no cycles profile can show.
 
 A hand-off = one benchmark task waking the other. Its checkpoints, in order:
@@ -35,6 +42,7 @@ import re
 import statistics as st
 import sys
 import contextlib
+import glob
 
 sys.dont_write_bytecode = True  # often run as root; do not leave a root-owned __pycache__
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -138,9 +146,11 @@ def fmt(v, d=0):
     return "n/a" if v is None else f"{v:,.{d}f}"
 
 
-def report(hs, incomplete, sizes, p):
-    n_per = int(p.get("trace_warmup", 0)) + int(p.get("trace_iterations", 0))
-    print("WAKEUP TIMELINE  (from perf_trace.data: every wakeup of one benchmark task by the other)")
+def report(hs, incomplete, sizes, p, source):
+    have_user = any("user" in h["cp"] for h in hs)
+    phases = [ph for ph in PHASES if have_user or ph[0] != "switch_to_user"]
+    print("WAKEUP TIMELINE  (every wakeup of one benchmark task by the other)")
+    print(f"  source: {source}")
     print(f"  {len(hs)} complete hand-offs analysed, {incomplete} skipped (an end of the wakeup was not found).")
     print("  The capture slows the benchmark several times over: read the proportions between phases,")
     print("  not the absolute nanoseconds. Each phase is the median over the hand-offs that have both ends.\n")
@@ -156,35 +166,45 @@ def report(hs, incomplete, sizes, p):
         ipi_share = 100 * sum("ipi" in h["cp"] for h in g) / len(g)
         idle_share = 100 * sum("idle exit" in h["cp"] for h in g) / len(g)
         row = [ts.human_size(sz), len(g), f"{ipi_share:.0f}%", f"{idle_share:.0f}%"]
-        for col, _, a, b in PHASES:
+        for col, _, a, b in phases:
             m, _ = med(gap(h, a, b) for h in g)
             row.append(fmt(m))
         w_run, _ = med(gap(h, "waking", "switch") for h in g)
-        w_tot, _ = med(gap(h, "waking", "user") for h in g)
-        row += [fmt(w_run), fmt(w_tot)]
+        row.append(fmt(w_run))
+        if have_user:
+            row.append(fmt(med(gap(h, "waking", "user") for h in g)[0]))
         rows.append(row)
-    hdr = ["size", "hand-offs", "IPI", "idle exit"] + [lab for _, lab, _, _ in PHASES] + ["waking->running", "waking->user"]
+    hdr = ["size", "hand-offs", "IPI", "idle exit"] + [lab for _, lab, _, _ in phases] + ["waking->running"]
+    if have_user:
+        hdr.append("waking->user")
     ts.table(hdr, rows, "A. median time per phase, in ns (per size)")
     print("\n  'IPI' / 'idle exit' = share of hand-offs that had that checkpoint: without an IPI the target CPU was\n"
-          "  not sleeping in idle. 'waking->running' = waking to the context switch; 'waking->user' = to the woken\n"
-          "  task returning from its syscall (for messages above the 64 KB pipe buffer that includes copying).")
+          "  not sleeping in idle. 'waking->running' = waking to the context switch."
+          + ("\n  'waking->user' = to the woken task returning from its syscall (for messages above the 64 KB pipe\n"
+             "  buffer that includes copying)." if have_user else
+             "\n  (No syscall events in this capture, so there is no 'switch -> syscall returns' phase.)"))
 
+    end = "user" if have_user else "switch"
     rows = []
     for sz in sizes:
-        g = [gap(h, "waking", "user") for h in by.get(sz, [])]
+        g = [gap(h, "waking", end) for h in by.get(sz, [])]
         g = sorted(v for v in g if v is not None)
         if len(g) >= 5:
             rows.append([ts.human_size(sz), len(g), fmt(g[len(g) // 10]), fmt(st.median(g)), fmt(g[(9 * len(g)) // 10]), fmt(g[-1])])
     if rows:
-        ts.table(["size", "n", "p10 ns", "median ns", "p90 ns", "max ns"], rows, "\nB. spread of the whole wakeup (waking -> user)")
+        ts.table(["size", "n", "p10 ns", "median ns", "p90 ns", "max ns"], rows,
+                 f"\nB. spread of the whole wakeup (waking -> {'user' if have_user else 'running'}); sizes with fewer than 5 hand-offs are left out")
+    few = [ts.human_size(sz) for sz in sizes if 0 < len(by.get(sz, [])) < 30]
+    if few:
+        print("\n  !! fewer than 30 hand-offs, treat with care: " + ", ".join(few))
 
     print("\nC. one representative hand-off per profiled size (the one closest to that size's median), ns from 'waking'")
     for sz in [int(x) for x in p.get("cycles_sizes", "4 65536 524288").split()]:
-        g = [h for h in by.get(sz, []) if "user" in h["cp"]]
+        g = [h for h in by.get(sz, []) if end in h["cp"]]
         if not g:
             continue
-        target = st.median(gap(h, "waking", "user") for h in g)
-        h = min(g, key=lambda x: abs(gap(x, "waking", "user") - target))
+        target = st.median(gap(h, "waking", end) for h in g)
+        h = min(g, key=lambda x: abs(gap(x, "waking", end) - target))
         print(f"\n  {ts.human_size(sz)}: waker on CPU {h['waker_cpu']}, woken task on CPU {h['target_cpu']}")
         prev = None
         for name in ORDER:
@@ -229,9 +249,10 @@ def chart(path_base, hs, sizes):
     colors = ["#e67e22", "#c0392b", "#8e44ad", "#1f5fbf", "#16a085"]
     plt.rcParams.update({"font.size": 10, "axes.labelsize": 11})
     fig, ax = plt.subplots(figsize=(6.6, 4.0))
-    meds = {s: [med(gap(h, a, b) for h in by[s])[0] or 0.0 for _, _, a, b in PHASES] for s in sizes}
+    phases = [(ph, c) for ph, c in zip(PHASES, colors) if any(gap(h, ph[2], ph[3]) is not None for h in hs)]
+    meds = {s: [med(gap(h, a, b) for h in by[s])[0] or 0.0 for (_, _, a, b), _ in phases] for s in sizes}
     bottom = [0.0] * len(sizes)
-    for k, ((col, lab, a, b), c) in enumerate(zip(PHASES, colors)):
+    for k, ((col, lab, a, b), c) in enumerate(phases):
         vals = [100 * meds[s][k] / (sum(meds[s]) or 1) for s in sizes]
         ax.bar(range(len(sizes)), vals, bottom=bottom, color=c, edgecolor="white", width=0.65, label=lab)
         bottom = [x + v for x, v in zip(bottom, vals)]
@@ -256,21 +277,39 @@ def main():
     ap.add_argument("--out", help="output directory (default: <run_dir>/wakeup)")
     a = ap.parse_args()
     d = a.run_dir.rstrip("/")
+    p = ts.read_params(d)
+    if p.get("name"):
+        ts.BENCH_COMM = p["name"]  # "latency" or "throughput": the benchmark's process name in the captures
+    sizes = [int(x) for x in p.get("sizes", "").split()]
+    ded = {int(m.group(1)): f for f in glob.glob(f"{d}/perf_wakeup_*.data")
+           for m in [re.search(r"perf_wakeup_(\d+)\.data$", f)] if m}
     path = f"{d}/perf_trace.data"
-    if not os.path.exists(path):
-        sys.exit(f"{path} not found (is this a latency-trace.sh run directory?)")
+    if not ded and not os.path.exists(path):
+        sys.exit(f"neither perf_wakeup_<size>.data nor {path} found (is this a trace run directory?)")
     out = a.out or f"{d}/wakeup"
     os.makedirs(out, exist_ok=True)
-    p = ts.read_params(d)
-    sizes = [int(x) for x in p.get("sizes", "").split()]
-    ev = ts.load_events(path)
-    wins = ts.size_windows(ev, set(sizes))
-    if not wins:
-        sys.exit("could not find the benchmark's pipe writes in the capture")
-    hs, incomplete = handoffs(ev, wins)
+    hs, incomplete = [], 0
+    if ded:
+        source = (f"dedicated wakeup captures, {len(ded)} files (perf_wakeup_<size>.data): scheduler, IPI and idle "
+                  "events only, no syscall events")
+        for size in sorted(ded):
+            ev = ts.load_events(ded[size])
+            if ev:
+                h, inc = handoffs(ev, [(size, min(e["t"] for e in ev), max(e["t"] for e in ev) + 1e-9)])
+                hs += h
+                incomplete += inc
+    else:
+        source = "perf_trace.data (general tracepoint capture, syscall events included)"
+        ev = ts.load_events(path)
+        wins = ts.size_windows(ev, set(sizes))
+        if not wins:
+            sys.exit("could not find the benchmark's pipe writes in the capture")
+        hs, incomplete = handoffs(ev, wins)
+    if not hs:
+        sys.exit("no wakeups of the benchmark found in the captures")
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        report(hs, incomplete, sizes, p)
+        report(hs, incomplete, sizes, p, source)
     text = buf.getvalue()
     open(f"{out}/wakeup_timeline.txt", "w").write(text)
     write_csv(f"{out}/wakeup_phases.csv", hs)
