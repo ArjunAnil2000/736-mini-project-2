@@ -1,0 +1,91 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage[margin=1in,columnsep=0.25in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[font=small,labelfont=bf,skip=3pt]{caption}
+\usepackage{url}
+\usepackage[compact]{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.5em}{}
+\titlespacing*{\section}{0pt}{7pt plus 2pt minus 1pt}{2pt}
+\setlength{\textfloatsep}{7pt plus 2pt minus 2pt}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\setlength{\intextsep}{7pt plus 2pt minus 2pt}
+\setlength{\parskip}{0pt}
+\pagestyle{plain}
+\raggedbottom
+
+\title{\vspace{-0.55in}\Large\bfseries The Performance Profiling of \texttt{pipe()}\vspace{-0.12in}}
+\author{Arjun Anil\\University of Wisconsin--Madison \and Aidan Liaw\\University of Queensland}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-0.3in}
+
+\section{Introduction}
+The pipe is the most basic UNIX inter-process communication (IPC) mechanism: \texttt{pipe()} creates a uni-directional byte stream that, with \texttt{fork()}, connects two processes. In Linux it is a 64\,KiB kernel buffer behind a mutex; reads on an empty pipe and writes on a full one block, and writes of at most \texttt{PIPE\_BUF} (4096\,B) are atomic~\cite{pipe7}. We measure the latency and throughput of pipes for 4\,B to 512\,KB messages and use \texttt{perf}, \texttt{strace} and \texttt{ftrace} to find where the time goes.
+
+\section{Experimental Design}
+\textbf{Variables.} The independent variable is the message size, ten steps from 4\,B to 512\,KB that include \texttt{PIPE\_BUF} (4096\,B) and the pipe capacity (65536\,B). The dependent variables are one-way latency, throughput and per-message counts (context switches, wakeups, cycles). Held fixed: pipe capacity, blocking I/O (polling would measure the loop), \texttt{SCHED\_FIFO} priority 99, 4\,GHz core frequency, and the parent, child and profilers on CPUs~0, 1 and 2 (P-cores).
+
+\textbf{Hypotheses.} \textbf{H1:} variance between runs is small, given the isolation. \textbf{H2:} performance gets worse above \texttt{PIPE\_BUF}, where we suspected writes might be split, and above the pipe capacity, where the producer must stall until the consumer drains the pipe.
+
+\textbf{Apparatus and timer.} An Intel Core Ultra 7 258V laptop (four P-, four E-cores), Fedora 44, kernel 7.1.8, in its normal desktop session. A one-way message takes about a microsecond, so we compared four timers (smallest non-zero difference of back-to-back reads over 2000 trials) and checked each against a \texttt{sleep(2)} (Table~\ref{tab:clock}). \texttt{gettimeofday()} and \texttt{CLOCK\_MONOTONIC\_COARSE} are too coarse. We time with \texttt{rdtsc}: its counter is invariant on this CPU and is read only in the parent, so both reads are on one core. It is calibrated against \texttt{CLOCK\_MONOTONIC} (bracketed reads over 100\,ms sleeps, minimum of 10 trials: 3.302\,GHz). The fine timers agree within 10.5\,$\mu$s in 2\,s and read 36--47\,$\mu$s high, the sleep overshooting; the independent \texttt{gettimeofday()} differs from \texttt{rdtsc} by 8.6\,$\mu$s.
+
+\begin{table}[t]
+\caption{Timer resolution and error after \texttt{sleep(2)}, CPU~0 at 4\,GHz.}
+\label{tab:clock}
+\footnotesize\centering\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Timer & Resolution & Error \\
+\midrule
+\texttt{gettimeofday} & 1000 ns & $+45.0\,\mu$s \\
+\texttt{CLOCK\_MONOTONIC} & 11 ns & $+46.9\,\mu$s \\
+\texttt{rdtsc} (calibrated) & 7.3 ns & $+36.4\,\mu$s \\
+\texttt{CLOCK\_MONOTONIC\_COARSE} & 1 ms & $+975.3\,\mu$s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Protocols.} \emph{Latency:} parent and child are joined by two pipes; the parent writes the message, the child echoes it, and the parent times the round trip. One-way latency is half of it, since two cores' counters cannot be compared. Per size: 20 warmup rounds, 2000 timed. \emph{Throughput:} the parent streams 64\,MiB in chunks of the given size (less for 4\,B and 16\,B: chunks capped at 2 million), the child returns one one-byte acknowledgement, and the timer runs from the first write to that acknowledgement; three transfers per run. The experiment is run five times; we report the minimum latency and best throughput, not the mean~\cite{smith,heiser}, and use the runs to check reproducibility.
+
+\textbf{Profilers.} They slow the benchmark, so they run separately and only counts and proportions are used: \texttt{perf stat} (counters~\cite{perf}), \texttt{perf record} (every scheduler, IPI and idle tracepoint; cycles with call graphs), \texttt{strace} (system calls) and \texttt{ftrace} (kernel call tree~\cite{perf}).
+
+\section{Results}
+A small message costs about 1\,$\mu$s one way (0.98\,$\mu$s at 4\,B); latency is 1.14\,$\mu$s at 1\,KB, steps to 2.12\,$\mu$s at 4\,KB, and beyond the pipe capacity grows with the size (113.9\,$\mu$s at 512\,KB; Figure~\ref{fig:lt}). Throughput peaks at 4,742\,MiB/s at 16\,KB and is 25\% lower, 3,556--3,634\,MiB/s, from 64\,KB to 512\,KB. The minimum latency reproduces within 0.9--9.7\% across runs and the best throughput within 5.8--14\% (29.5\% and 39.2\% for 16\,B and 4\,B, which move only 30.5 and 7.6\,MiB). The 4\,KB step is real: the 1st percentile doubles from 2.38\,$\mu$s (1\,KB) to 4.95\,$\mu$s (4\,KB).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{twopage_lat_thr.png}
+\caption{Minimum one-way latency (left axis) and best throughput (right axis) against message size, five runs. Dotted lines: \texttt{PIPE\_BUF} (4\,KB) and the pipe capacity (64\,KB).}
+\label{fig:lt}
+\end{figure}
+
+\section{Where the Time Goes}
+\textbf{Latency.} \texttt{strace} shows one \texttt{write()} per message and $\lceil \mathrm{size}/64\,\mathrm{KiB}\rceil$ \texttt{read()}s at every size. A round trip of up to 64\,KB costs 2 context switches, 2 wakeups and 2 inter-processor interrupts (IPIs); 256\,KB and 512\,KB cost 14 and 30 context switches ($2(2n-1)$ for $n$ pipe capacities), since the writer sleeps until the pipe is drained. For 4\,B the median round trip is 3.06\,$\mu$s but the tasks execute for only 2.11\,$\mu$s; in the other 0.95\,$\mu$s (31\%) neither runs, the time to wake a sleeping core. Traced, a wakeup takes 1.9--2.1\,$\mu$s at every size: a fixed cost paid twice per round trip. As Figure~\ref{fig:bd} shows, no component dominates at 4\,B (scheduling, wakeup and IPIs 37\%, copying 7\%), while at 64\,KB and 512\,KB copying is 66--68\% and page allocation with cgroup accounting 11--13\%.
+
+\textbf{Throughput.} Streaming overlaps the two tasks: up to 16\,KB there are almost no context switches and, from 64\,B, both cores are nearly always busy (1.9--2.0 cores). From 64\,KB each chunk costs 2, 8 and 16 context switches and only 0.86--0.91 cores are busy, though each KiB costs fewer cycles (991 against 1,741 at 16\,KB): throughput falls 25\%. Small chunks are limited by per-call cost (4\,B: 43\% locking, 30\% syscall entry); at 4\,KB, locking is 56\%. The \texttt{ftrace} call trees agree (blocked \texttt{schedule} is 24\% of kernel time).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{twopage_breakdown.png}
+\caption{Share of CPU cycles by component for latency (per round trip) and throughput (per chunk). Kernel functions are grouped by name; labels give shares of 9\% or more.}
+\label{fig:bd}
+\end{figure}
+
+\section{Discussion and Conclusion}
+\textbf{H1} holds in part: minimum latencies reproduce within 10\%, but the small-message median round trip (3.06\,$\mu$s) is 50\% above the minimum (1.96\,$\mu$s) and 4\,B/16\,B transfers vary by 29--39\%. \textbf{H2:} the \texttt{PIPE\_BUF} half is not supported: every message is one \texttt{write()}, throughput peaks at 16\,KB, and the 4\,KB latency step has the same two wakeups as 4\,B. That step is unexplained: the median round trip grows 2.1\,$\mu$s from 1\,KB to 4\,KB, half CPU work and half time with neither task running, yet the traced wakeup path is size-independent. The capacity half is supported. Small messages are thus a scheduling problem, large ones a copying problem.
+
+\textbf{Limitations.} One laptop, P-cores only, pinned at 4\,GHz (unverified). The real-time scheduler adds bookkeeping (\texttt{cpupri\_set} is 8.5\% of 4\,B cycles). The minimum is a best case; half a round trip assumes symmetry. Tracing perturbs the run, and capacity, page size and \texttt{PIPE\_BUF} were not varied; sizes near 4096\,B are the follow-up.
+
+\begin{thebibliography}{9}\footnotesize\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}
+\bibitem{pipe7} Linux man-pages, \emph{pipe(7)}. man7.org/linux/man-pages
+\bibitem{smith} J.~E.~Smith. Characterizing computer performance with a single number. \emph{CACM} 31(10), 1988.
+\bibitem{heiser} G.~Heiser. Systems benchmarking crimes. UNSW web page.
+\bibitem{perf} Linux perf wiki (perf.wiki.kernel.org) and kernel ftrace documentation (docs.kernel.org).
+\end{thebibliography}
+\end{document}
